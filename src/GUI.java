@@ -6,8 +6,9 @@ import java.awt.event.ActionListener;
 public class GUI extends JFrame implements ActionListener {
 
     String userAlias = "User Alias";
-    String otherUserAlisar = "opponents alias";
+    String otherUserAlias = "opponents alias";
     String categoryName = "Name of category";
+    JButton classicGameButton = new JButton("Classic game");
 
     public GUI(){
         JFrame frame = new JFrame();
@@ -15,7 +16,6 @@ public class GUI extends JFrame implements ActionListener {
         JPanel welcomePanel = new JPanel(new GridLayout(2,1));
         JLabel welcomeLable = new JLabel("Welcome to Quiz kampen Remix!");
         JLabel userAliasLable = new JLabel(userAlias);
-        JButton classicGameButton = new JButton("Classic game");
 
         frame.setTitle("Quiz kampen REMIX:");
         frame.add(startPanel);
@@ -40,22 +40,72 @@ public class GUI extends JFrame implements ActionListener {
         frame.setVisible(true);
 
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        StartClassicGame startClassicGame = new StartClassicGame(userAlias, categoryName, otherUserAlisar);
-        startClassicGame.starClassicGame();
+
+    public void main(String[] args) {
+        GUI gui = new GUI();
     }
 
-    public class StartClassicGame implements ActionListener{
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == classicGameButton) {
+            // Startar CategorySelectionGUI när classicGameButton trycks
+            CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
+            categorySelectionGUI.choosCategory();
+        }
+    }
+
+    public class CategorySecletionGUI implements ActionListener{
+
+       private JButton categoryOne = new JButton("Category one");
+       private JButton categoryTwo = new JButton("Category two");
+       private JButton categoryThree = new JButton("Category three");
+       private JLabel chooseCategory = new JLabel("Choose category");
+
+        public CategorySecletionGUI() {
+            categoryOne.addActionListener(this);
+            categoryTwo.addActionListener(this);
+            categoryThree.addActionListener(this);
+        }
+
+        public void choosCategory(){
+            JFrame gameFrame = new JFrame("Category Selection");
+            JPanel wholePanel = new JPanel(new BorderLayout());
+            JPanel categoryPanel = new JPanel(new GridLayout(4,1));
+
+            gameFrame.add(wholePanel);
+            wholePanel.add(categoryPanel, BorderLayout.CENTER);
+            categoryPanel.setBackground(Color.blue);
+            categoryPanel.add(chooseCategory);
+            chooseCategory.setHorizontalAlignment(SwingConstants.CENTER);
+            categoryPanel.add(categoryOne);
+            categoryPanel.add(categoryTwo);
+            categoryPanel.add(categoryThree);
+
+            gameFrame.setSize(400,600);
+            gameFrame.setVisible(true);
+            gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            gameFrame.setLocationRelativeTo(null);
+        }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
+            new ClassicGameGUI();
+        }
+        }
+    }
+
+    public class ClassicGameGUI implements ActionListener{
 
         private String userAlias;
         private String categoryName;
         private String otherUserAlias;
 
-        public StartClassicGame(String userAlias, String categoryName, String otherUserAlias) {
-            this.userAlias = userAlias;
-            this.categoryName = categoryName;
-            this.otherUserAlias = otherUserAlias;
+        public ClassicGameGUI() {
+            this.userAlias = GUI.this.userAlias;
+            this.categoryName = GUI.this.categoryName;
+            this.otherUserAlias = GUI.this.otherUserAlias;
+            starClassicGame();
         }
 
         public void starClassicGame() {
@@ -67,7 +117,7 @@ public class GUI extends JFrame implements ActionListener {
 
             JLabel userAliasLabel = new JLabel(userAlias);
             JLabel categoryLabel = new JLabel(categoryName);
-            JLabel otherUserAliasLabel = new JLabel(otherUserAlisar);
+            JLabel otherUserAliasLabel = new JLabel(GUI.this.otherUserAlias);
             JLabel timer = new JLabel("Timer goes here");
 
             JButton gameQuesiton = new JButton("Question: bla bla bla bla bla bla bla");
@@ -162,13 +212,11 @@ public class GUI extends JFrame implements ActionListener {
                } else if (e.getSource() == wrongAwnser3) {
                    wrongAwnser3.setBackground(Color.red);
                    continueButton.setVisible(true);
+
                }
             }
         }
     }
 }
 
-public void main(String[] args) {
-        GUI gui = new GUI();
-    }
 
