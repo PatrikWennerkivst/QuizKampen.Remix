@@ -41,18 +41,14 @@ public class GUI extends JFrame implements ActionListener {
 
     }
 
-    public void main(String[] args) {
-        GUI gui = new GUI();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == classicGameButton) {
-            // Startar CategorySelectionGUI när classicGameButton trycks
-            CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
-            categorySelectionGUI.choosCategory();
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == classicGameButton) {
+                // Startar CategorySelectionGUI när classicGameButton trycks
+                CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
+                categorySelectionGUI.choosCategory();
+            }
         }
-    }
 
     public class CategorySecletionGUI implements ActionListener{
 
@@ -87,11 +83,11 @@ public class GUI extends JFrame implements ActionListener {
             gameFrame.setLocationRelativeTo(null);
         }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
-            new ClassicGameGUI();
-        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
+                new ClassicGameGUI();
+            }
         }
     }
 
@@ -166,7 +162,6 @@ public class GUI extends JFrame implements ActionListener {
 
         private class RightAnswerListener implements ActionListener {
 
-
             private JButton rightAnswer;
             private JButton continueButton;
 
@@ -177,10 +172,7 @@ public class GUI extends JFrame implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Byt färg på knappen till grön
                 rightAnswer.setBackground(Color.GREEN);
-
-                // Gör continue-knappen synlig
                 continueButton.setVisible(true);
             }
         }
@@ -212,10 +204,13 @@ public class GUI extends JFrame implements ActionListener {
                } else if (e.getSource() == wrongAwnser3) {
                    wrongAwnser3.setBackground(Color.red);
                    continueButton.setVisible(true);
-
                }
             }
         }
+    }
+
+    public void main(String[] args) {
+        GUI gui = new GUI();
     }
 }
 
