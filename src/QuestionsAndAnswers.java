@@ -19,6 +19,7 @@ private Categories categories;
     // getters
 
 
+
     public String getQuestion() {
         return question;
     }
