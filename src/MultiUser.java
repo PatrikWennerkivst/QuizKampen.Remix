@@ -17,7 +17,7 @@ public class MultiUser {
     }
 
     //Byt ut String message till ett objekt av QuestionAndAnwsers
-    public void print(String message) {
+    public void print(QuestionsAndAnswers message) {
         try{
             for (ObjectOutputStream createConnection : writerList) {
                 createConnection.writeObject(message);

@@ -17,9 +17,17 @@ public class Server extends  Thread{
 
             multiUser.addWriter(writer);
             String inputLine;
+            QuestionsAndAnswers questionsAndAnswers;
 
-            while((inputLine = reader.readLine()) != null) {
-                multiUser.print(inputLine);
+            Protocol protocol = new Protocol();
+
+            if((inputLine = reader.readLine()) != null) {
+                questionsAndAnswers = protocol.gameProcess(inputLine);
+                multiUser.print(questionsAndAnswers);
+            }
+            else {
+                questionsAndAnswers = protocol.gameProcess(null);
+                multiUser.print(questionsAndAnswers);
             }
 
         }catch (IOException e) {

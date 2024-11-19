@@ -1,41 +1,42 @@
+import java.util.Collections;
+import java.util.List;
+
 public class Protocol {
 
     Database database = new Database();
+    List<QuestionsAndAnswers> currentGenre;
 
-    private static final int CONNECTED = 0;
-    private static final int GENRE = 1;
-    private static final int QUESTION1 = 2;
-    private static final int QUESTION2 = 3;
 
-    private int state = CONNECTED;
+    private static final int GENRE = 0;
+    private static final int QUESTION1 = 1;
+    private static final int QUESTION2 = 2;
 
-    public String process(String theInput){
-        String theOutput = null;
-        String chosenGenre = null;
+    private int state = GENRE;
 
-        if(state == CONNECTED){
-            //Skriva ut att man är uppkopplad till spelet
-            //theOutput = "Du är uppkopplad";
-            state = GENRE;
-        } else if(state == GENRE){
-            //Här väljer spelaren kategori
-            //Då går man igenom en lista med alla kategorier, för att
-            //komma åt frågor från den kategorin
-            //chosenGenre = theInput;
-            for(Categories genre : genres){
-                if(chosenGenre.equalsIgnoreCase(genre.getGenreType())){
+    public QuestionsAndAnswers gameProcess(String chosenGenre){
+        QuestionsAndAnswers theOutput = null;
 
-                    state = QUESTION1;
-                }
-            }
+        if(state == GENRE){
+            this.currentGenre = database.getGenreList(chosenGenre);
+            Collections.shuffle(currentGenre);
+            state = QUESTION1;
         } else if(state == QUESTION1){
-            //theOutput = database.getQuestion();
+            theOutput = currentGenre.get(0);
             state = QUESTION2;
         } else if(state == QUESTION2){
+            theOutput = currentGenre.get(1);
             state = GENRE;
         }
-
         return theOutput;
+    }
+
+    public List<QuestionsAndAnswers> getGenreList(String chosenGenre){
+        for(List genreList : genres){
+            if(chosenGenre.equalsIgnoreCase(genreList.get(5).getGenreType())){
+                return genreList;
+            }
+        }
+        return null;
     }
 
 }
