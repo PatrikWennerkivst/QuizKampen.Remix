@@ -12,6 +12,7 @@ public enum Categories {
         SPORT_OCH_FRITID ("Sport & fritid"),
         DJUR_OCH_NATUR ("Djur & natur");
 
+
         public final String category;
 
         Categories (String c){
