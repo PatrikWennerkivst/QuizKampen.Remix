@@ -35,9 +35,9 @@ public class Protocol {
         }
     }
 
-    //TODO: Skapa metod som kör antalet rundor som står i properties, men max 6.
+    //TODO: Skapa metod som kör antalet rundor som står i properties, men max 10.
     //Ska läsa in roundsInGame och kanske loopa spelet så många gånger?
-    //Felmeddelande om man vill ha fler än 6 rundor
+    //Felmeddelande om man vill ha fler än 10 rundor
 
     //TODO: Ändra gameProcess så att den ställer så många frågor som står i properties, men max 3.
     //Felmeddelande om man vill ha fler än 3 frågor
