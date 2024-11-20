@@ -1,4 +1,5 @@
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -7,6 +8,11 @@ import java.util.Properties;
 public class Protocol {
 
     Database database = new Database();
+
+    Categories [] genres = {Categories.JORDEN_RUNT, Categories.KONST_OCH_KULTUR,
+            Categories.I_LABBET, Categories.HISTORIA, Categories.MAT_OCH_DRYCK,
+            Categories.KROPP_OCH_KNOPP, Categories.TEKNIKENS_UNDER,
+            Categories.TV_SERIER, Categories.SPORT_OCH_FRITID, Categories.DJUR_OCH_NATUR};
 
     Properties prop = new Properties();
     int questionsInRound;
@@ -31,14 +37,22 @@ public class Protocol {
     }
 
     //Behöver också anropas från sammanbindande logik-metod
-    public QuestionsAndAnswers gameProcess(Categories chosenGenre){
+    public QuestionsAndAnswers gameProcess(String theInput){
         QuestionsAndAnswers theOutput = null;
+        Categories chosenGenre;
 
+        /*Här tror jag att en justering kommer behövas med states
+        Man vill skicka första frågan så fort användraen valt kategori
+        Inte vänta på att gameprocess anropas en gång till
+        Som det ser ut nu så tas kategorin emot, och en lista med vald kategori
+        Men sen behöver metoden anropas igen för att hoppa ner till state QUESTION1
+         */
         if(state == GENRE){
+            chosenGenre = findCategory(theInput);
             this.currentGenre = database.getListBasedOnCategory(chosenGenre);
             Collections.shuffle(currentGenre);
             state = QUESTION1;
-        } else if(state == QUESTION1){
+        } else if(state == QUESTION1 && theInput.equalsIgnoreCase("ANSWERED")){
             theOutput = currentGenre.get(0);
             state = QUESTION2;
         } else if(state == QUESTION2){
@@ -46,6 +60,15 @@ public class Protocol {
             state = GENRE;
         }
         return theOutput;
+    }
+
+    public Categories findCategory(String genreString){
+        for(Categories genre : genres){
+            if (genreString.equals(genre.category)){
+                return genre;
+            }
+        }
+        return null;
     }
 }
 
