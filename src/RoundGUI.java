@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class RoundGUI implements ActionListener {
-    private String userAlias;
-    private String categoryName;
-    private String otherUserAlias;
+    private String userAlias = "User alias";
+    private String categoryName = "Category name";
+    private String otherUserAlias = "Other user";
     private String[] categories = {"Category One", "Category Two", "Category Three", "Category Four", "Category Five", "Category Six"};
     JButton nextQuestionButton = new JButton("Fortsätt");
 
@@ -50,7 +50,7 @@ public class RoundGUI implements ActionListener {
     private JPanel createScorePanel() {
         JPanel scorePanel = new JPanel(new GridLayout(6, 3));
         for (int i = 0; i < 18; i++) {
-            scorePanel.add(new JButton("" + (i + 1)));
+            scorePanel.add(new JButton());
         }
         return scorePanel;
     }
