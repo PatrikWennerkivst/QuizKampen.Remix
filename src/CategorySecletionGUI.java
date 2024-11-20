@@ -2,15 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class CategorySecletionGUI implements ActionListener {
 
-    private JButton categoryOne = new JButton("Category one");
-    private JButton categoryTwo = new JButton("Category two");
-    private JButton categoryThree = new JButton("Category three");
-    private JLabel chooseCategory = new JLabel("Choose category");
+    private JButton categoryOne = new JButton();
+    private JButton categoryTwo = new JButton();
+    private JButton categoryThree = new JButton();
+    private JLabel chooseCategory = new JLabel();
+    Protocol protocol = new Protocol();
+
 
     public CategorySecletionGUI() {
     }
@@ -25,6 +28,12 @@ public class CategorySecletionGUI implements ActionListener {
         categoryPanel.setBackground(Color.blue);
         categoryPanel.add(chooseCategory);
         chooseCategory.setHorizontalAlignment(SwingConstants.CENTER);
+
+        //Anropar metoden som slumpar en kategori från Protocol och skriver ut det med hjälp av toString
+        categoryOne.setText(protocol.randomizeCategory().toString());
+        categoryTwo.setText(protocol.randomizeCategory().toString());
+        categoryThree.setText(protocol.randomizeCategory().toString());
+
         categoryPanel.add(categoryOne);
         categoryPanel.add(categoryTwo);
         categoryPanel.add(categoryThree);

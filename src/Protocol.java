@@ -1,8 +1,7 @@
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+
+import static java.util.Collections.shuffle;
 
 
 public class Protocol {
@@ -50,7 +49,7 @@ public class Protocol {
         if(state == GENRE){
             chosenGenre = findCategory(theInput);
             this.currentGenre = database.getListBasedOnCategory(chosenGenre);
-            Collections.shuffle(currentGenre);
+            shuffle(currentGenre);
             state = QUESTION1;
         } else if(state == QUESTION1 && theInput.equalsIgnoreCase("ANSWERED")){
             theOutput = currentGenre.get(0);
@@ -69,6 +68,13 @@ public class Protocol {
             }
         }
         return null;
+    }
+    // Metod som slumpar listan av kategorier som sedan används i RoundGUI och läggs till i varje kategori knapp.
+    public Categories randomizeCategory(){
+        Random shuffle = new Random();
+        int categoryIndex = shuffle.nextInt(genres.length);
+        Categories shuffledCategory = genres[categoryIndex];
+        return shuffledCategory;
     }
 }
 
