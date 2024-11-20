@@ -31,11 +31,11 @@ public class Protocol {
     }
 
     //Behöver också anropas från sammanbindande logik-metod
-    public QuestionsAndAnswers gameProcess(String chosenGenre){
+    public QuestionsAndAnswers gameProcess(Categories chosenGenre){
         QuestionsAndAnswers theOutput = null;
 
         if(state == GENRE){
-            this.currentGenre = database.getGenreList(chosenGenre);
+            this.currentGenre = database.getListBasedOnCategory(chosenGenre);
             Collections.shuffle(currentGenre);
             state = QUESTION1;
         } else if(state == QUESTION1){
@@ -47,16 +47,6 @@ public class Protocol {
         }
         return theOutput;
     }
-
-    public List<QuestionsAndAnswers> getGenreList(String chosenGenre){
-        for(List genreList : genres){
-            if(chosenGenre.equalsIgnoreCase(genreList.get(5).getGenreType())){
-                return genreList;
-            }
-        }
-        return null;
-    }
-
 }
 
 
