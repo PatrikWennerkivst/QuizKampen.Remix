@@ -13,9 +13,6 @@ public class CategorySecletionGUI implements ActionListener {
     private JLabel chooseCategory = new JLabel("Choose category");
 
     public CategorySecletionGUI() {
-        categoryOne.addActionListener(this);
-        categoryTwo.addActionListener(this);
-        categoryThree.addActionListener(this);
     }
 
     public void choosCategory(){
@@ -32,6 +29,10 @@ public class CategorySecletionGUI implements ActionListener {
         categoryPanel.add(categoryTwo);
         categoryPanel.add(categoryThree);
 
+        categoryOne.addActionListener(this);
+        categoryTwo.addActionListener(this);
+        categoryThree.addActionListener(this);
+
         gameFrame.setSize(400,600);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,9 +42,10 @@ public class CategorySecletionGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
+            ClassicGameGUI gameGUI = new ClassicGameGUI();
+            gameGUI.starClassicGame();
+            //Stänger ner fönstret när vilken JButton som helst trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
-
-            ClassicGameGUI gameGUI = new ClassicGameGUI("User Alias", "Category name", "Other user alias");
         }
     }
 }

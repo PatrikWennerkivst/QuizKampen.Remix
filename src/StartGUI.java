@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 public class StartGUI extends JFrame implements ActionListener {
 
     String userAlias = "User Alias";
-    String otherUserAlias = "opponents alias";
-    String categoryName = "Name of category";
     JButton classicGameButton = new JButton("Classic game");
 
     public StartGUI(){
@@ -44,12 +42,11 @@ public class StartGUI extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == classicGameButton) {
+                CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
+                categorySelectionGUI.choosCategory();
                 // Stänger ner fönstret efter att classicButton tryckts
                 ((JFrame) SwingUtilities.getWindowAncestor(classicGameButton)).dispose();
 
-                CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
-                categorySelectionGUI.choosCategory();
-                ;
             }
         }
     public void main(String[] args) {

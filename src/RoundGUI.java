@@ -11,10 +11,7 @@ public class RoundGUI implements ActionListener {
     private String[] categories = {"Category One", "Category Two", "Category Three", "Category Four", "Category Five", "Category Six"};
     JButton nextQuestionButton = new JButton("Fortsätt");
 
-    public RoundGUI(String userAlias, String categoryName, String otherUserAlias) {
-        this.userAlias = userAlias;
-        this.categoryName = categoryName;
-        this.otherUserAlias = otherUserAlias;
+    public RoundGUI() {
         startRound();
     }
 
@@ -22,9 +19,8 @@ public class RoundGUI implements ActionListener {
         JFrame gameFrame = new JFrame("Round score");
         JPanel wholeGamePanel = new JPanel(new GridLayout(3, 1));
         JPanel totalScoreBoardPanel = new JPanel(new GridLayout(1, 3));
-        JPanel roundPanel = new JPanel(new GridLayout(1, 3)); // panel som håller poäng
+        JPanel roundPanel = new JPanel(new GridLayout(1, 3));
 
-        // Alias och kategorier
         totalScoreBoardPanel.add(new JLabel(userAlias));
         totalScoreBoardPanel.add(new JLabel(categoryName));
         totalScoreBoardPanel.add(new JLabel(otherUserAlias));
@@ -69,8 +65,10 @@ public class RoundGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nextQuestionButton) {
-            // Skapa en ny instans av ClassicGameGUI med samma parametrar
-            ClassicGameGUI classicGameGUI = new ClassicGameGUI(userAlias, categoryName, otherUserAlias);
+            ClassicGameGUI classicGameGUI = new ClassicGameGUI();
+            classicGameGUI.starClassicGame();
+            //Stänger ner fönstret när nextQuestionButton trycks ner
+            ((JFrame) SwingUtilities.getWindowAncestor(nextQuestionButton)).dispose();
         }
     }
 }

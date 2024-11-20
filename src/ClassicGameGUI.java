@@ -6,14 +6,11 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
 public class ClassicGameGUI implements ActionListener {
-    private final String userAlias;
-    private String categoryName;
-    private final String otherUserAlias;
+    private String userAlias = "User Alias 1";
+    private String categoryName = "Category name 1";
+    private String otherUserAlias = "Other user alias 1";
 
-    public ClassicGameGUI(String userAlias, String categoryName, String otherUserAlias) {
-        this.userAlias = userAlias;
-        this.categoryName = categoryName;
-        this.otherUserAlias = otherUserAlias;
+    public ClassicGameGUI() {
         starClassicGame();
     }
 
@@ -75,7 +72,6 @@ public class ClassicGameGUI implements ActionListener {
     }
 
     public class RightAnswerListener implements ActionListener {
-
         private final JButton rightAnswer;
         private final JButton continueButton;
 
@@ -97,9 +93,7 @@ public class ClassicGameGUI implements ActionListener {
         private final JButton wrongAwnser3;
         private final JButton continueButton;
 
-        public WrongButtonListener(JButton wrongAwnser1, JButton wrongAwnser2,
-                                   JButton wrongAwnser3, JButton continueButton) {
-
+        public WrongButtonListener(JButton wrongAwnser1, JButton wrongAwnser2, JButton wrongAwnser3, JButton continueButton) {
             this.wrongAwnser1 = wrongAwnser1;
             this.wrongAwnser2 = wrongAwnser2;
             this.wrongAwnser3 = wrongAwnser3;
@@ -131,9 +125,10 @@ public class ClassicGameGUI implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == continueButton) {
+                RoundGUI roundGUI = new RoundGUI();
+                roundGUI.startRound();
+                //Stänger ner fönstret när continueButton trycks ner
                 ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
-                // Skapa en ny instans av RoundGUI med samma parametrar
-                RoundGUI roundGUI = new RoundGUI(userAlias, categoryName, otherUserAlias);
             }
         }
     }
