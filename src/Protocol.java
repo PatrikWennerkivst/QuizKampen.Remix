@@ -39,28 +39,28 @@ public class Protocol {
     //Ska läsa in roundsInGame och kanske loopa spelet så många gånger?
     //Felmeddelande om man vill ha fler än 10 rundor
 
-    //TODO: Ändra gameProcess så att den ställer så många frågor som står i properties, men max 3.
-    //Felmeddelande om man vill ha fler än 3 frågor
-
     //Tar alltid emot en sträng från servern (i sin tur från klienten) med vald kategori och
-    //skickar tillbaks en fråga åt gången och för spelet framåt
+    //skickar tillbaks en fråga åt gången och för spelet framåt, max tre frågor tillåtna
     public QuestionsAndAnswers gameProcess(String theInput) {
         QuestionsAndAnswers theOutput = null;
         Categories chosenGenre;
 
-        if (state == GENRE) {
+        if (state == GENRE && questionsInRound >= 1) {
             chosenGenre = findCategory(theInput); //användarens val av kategori
             this.currentGenre = database.getListBasedOnCategory(chosenGenre); //hämtar hela kategorin med tre frågor
             Collections.shuffle(currentGenre); //shufflar frågorna
             theOutput = currentGenre.get(0); //skickar alltid fråga 1 vid första anropet
             state = QUESTION2;
-        } else if (state == QUESTION2 && theInput.equalsIgnoreCase("ANSWERED")) { //om client tryckt på knapp
+        } else if (state == QUESTION2 && theInput.equalsIgnoreCase("ANSWERED")
+        && questionsInRound >= 2) { //om client tryckt på knapp och åtminstone två frågor ska ställas
             theOutput = currentGenre.get(1); //så skickas fråga 2
             state = QUESTION3;
-        } else if (state == QUESTION3 && theInput.equalsIgnoreCase("ANSWERED")) { //om client tryckt på knapp igen
+        } else if (state == QUESTION3 && theInput.equalsIgnoreCase("ANSWERED")
+        && questionsInRound == 3) { //om client tryckt på knapp igen och tre frågor ska ställas
             theOutput = currentGenre.get(2); //så skickas fråga 3
             state = GENRE;
-        }
+        } else if (questionsInRound < 1 || questionsInRound > 3) //om användaren ställt in färre än 1 eller fler än 3 frågor
+            System.out.println("Välj minst 1 men max 3 frågor i game_settings-filen"); //TODO: Skriv ut detta i spelet istället och ha exception
         return theOutput;
     }
 
