@@ -60,7 +60,7 @@ public class Protocol {
             theOutput = currentGenre.get(2); //så skickas fråga 3
             state = GENRE;
         } else if (questionsInRound < 1 || questionsInRound > 3) //om användaren ställt in färre än 1 eller fler än 3 frågor
-            System.out.println("Välj minst 1 men max 3 frågor i game_settings-filen"); //TODO: Skriv ut detta i spelet istället och ha exception
+            System.out.println("Välj minst 1 men max 3 frågor i game_settings-filen"); //kan göras snyggare
         return theOutput;
     }
 
