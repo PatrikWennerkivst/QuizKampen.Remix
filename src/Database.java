@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 // klass som funkar som databs för frågor och svar. man kan anropa hela listan eller en specifik kategori.
 public class Database {
     public List<QuestionsAndAnswers> questionsAndAnswers = CreateQuestionsAndAnswers ();
+
 //skapar en lista med alla objekt
     public List<QuestionsAndAnswers> CreateQuestionsAndAnswers (){
          List<QuestionsAndAnswers> questionsAndAnswersList = new ArrayList<>();
