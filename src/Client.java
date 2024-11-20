@@ -23,6 +23,7 @@ public class Client {
     vid en actionPerformed. Om spelaren har valt ett svar, så skickas ett meddelande till
     servern "ANSWERED", så servern kan skicka ett nytt objekt med frågor och svar
      */
+    //TODO: Det skulle behöva ske i en loop då den ska skicka ANSWERED exakt två gånger för att få alla tre frågor
     public void sendToServer(String userMessage){
             out.println(userMessage);
     }
