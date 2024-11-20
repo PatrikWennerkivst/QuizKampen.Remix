@@ -27,9 +27,9 @@ public class RoundGUI implements ActionListener {
 
         wholeGamePanel.add(totalScoreBoardPanel);
 
-        JPanel mainUserScorePanel = createScorePanel("User");
+        JPanel mainUserScorePanel = createScorePanel();
         JPanel categoryPanel = createCategoryPanel(categories);
-        JPanel otherUserScorePanel = createScorePanel("Other User");
+        JPanel otherUserScorePanel = createScorePanel();
 
         roundPanel.add(mainUserScorePanel);
         roundPanel.add(categoryPanel);
@@ -47,10 +47,10 @@ public class RoundGUI implements ActionListener {
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    private JPanel createScorePanel(String title) {
+    private JPanel createScorePanel() {
         JPanel scorePanel = new JPanel(new GridLayout(6, 3));
         for (int i = 0; i < 18; i++) {
-            scorePanel.add(new JButton(title + "" + (i + 1)));
+            scorePanel.add(new JButton("" + (i + 1)));
         }
         return scorePanel;
     }

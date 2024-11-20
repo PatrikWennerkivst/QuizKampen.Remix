@@ -6,9 +6,9 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
 public class ClassicGameGUI implements ActionListener {
-    private String userAlias = "User Alias 1";
-    private String categoryName = "Category name 1";
-    private String otherUserAlias = "Other user alias 1";
+    private String userAlias = "User alias";
+    private String categoryName = "Category name";
+    private String otherUserAlias = "Other user";
 
     public ClassicGameGUI() {
         starClassicGame();
