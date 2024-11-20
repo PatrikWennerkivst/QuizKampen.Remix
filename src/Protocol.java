@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+
 public class Protocol {
 
     Database database = new Database();
@@ -57,3 +58,5 @@ public class Protocol {
     }
 
 }
+
+
