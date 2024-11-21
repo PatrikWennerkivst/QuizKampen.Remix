@@ -19,39 +19,53 @@ public class Client extends Thread {
     Client(){}
 
     @Override
-     public void run(){
+    public void run() {
         try {
+            // Setup the connection
             socket = new Socket("127.0.0.1", 23478);
             out = new PrintWriter(socket.getOutputStream(), true);
             sender = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
-            while(socket.isConnected()){
-                if(userMessage != null && !userMessage.isEmpty()){
-                    System.out.println(userMessage);
-                    out.println(userMessage);
-                    userMessage = null;
-                    waitingForResponse = true;
-                }
-                else {
-                    System.out.println("Det skickas inte");
+            while (socket.isConnected()) {
+                // Step 1: Send the message to the server (e.g., category selection)
+                if (userMessage != null && !userMessage.isEmpty()) {
+                    System.out.println("Sending message: " + userMessage);
+                    out.println(userMessage); // Send category to the server
+                    userMessage = null; // Clear the message after sending it
+                    waitingForResponse = true; // Indicate we're waiting for a response
+                } else {
+                    System.out.println("No message to send.");
                 }
 
-                if(waitingForResponse){
-                    Object read = in.readObject();
-                        if(read instanceof QuestionsAndAnswers){
+                // Step 2: Wait for the response (QuestionsAndAnswers object)
+                if (waitingForResponse) {
+                    try {
+                        // Step 3: Receive the response from the server
+                        Object read = in.readObject();
+                        if (read instanceof QuestionsAndAnswers) {
+                            // If the server sent a QuestionsAndAnswers object, process it
                             this.qAndaA = (QuestionsAndAnswers) read;
+                            System.out.println("Received question: " + qAndaA.getQuestion());
+                        } else {
+                            // Handle unexpected responses here
+                            System.out.println("Unexpected response: " + read);
                         }
+                    } catch (EOFException e) {
+                        // Server disconnected unexpectedly
+                        System.out.println("Server connection closed unexpectedly.");
+                        break; // Exit the loop
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    // Reset the waitingForResponse flag after receiving the response
+                    waitingForResponse = false;
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
-
-
     }
 
     /*
