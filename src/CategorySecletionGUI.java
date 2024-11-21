@@ -30,7 +30,7 @@ public class CategorySecletionGUI implements ActionListener {
         chooseCategory.setHorizontalAlignment(SwingConstants.CENTER);
 
         //Anropar metoden som slumpar en kategori från Protocol och skriver ut det med hjälp av toString
-        categoryOne.setText(protocol.randomizeCategory().toString()); 
+        categoryOne.setText(protocol.randomizeCategory().toString());
         categoryTwo.setText(protocol.randomizeCategory().toString());
         categoryThree.setText(protocol.randomizeCategory().toString());
 
