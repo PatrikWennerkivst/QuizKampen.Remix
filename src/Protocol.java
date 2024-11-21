@@ -18,11 +18,10 @@ public class Protocol {
     int roundsInGame;
 
     List<QuestionsAndAnswers> currentGenre;
-    private static final int GENRE = 0;
-    private static final int QUESTION1 = 1;
-    private static final int QUESTION2 = 2;
-    private static final int QUESTION3 = 3;
-    private int state = GENRE;
+    private static final int QUESTION1 = 0;
+    private static final int QUESTION2 = 1;
+    private static final int QUESTION3 = 2;
+    private int state = QUESTION1;
 
     //Skapar två int som läser in hur många frågor det ska vara i varje runda och hur många rundor totalt
     public void gameSetup() {
@@ -45,7 +44,7 @@ public class Protocol {
         QuestionsAndAnswers theOutput = null;
         Categories chosenGenre;
 
-        if (state == GENRE && questionsInRound >= 1) {
+        if (state == QUESTION1 && questionsInRound >= 1) {
             chosenGenre = findCategory(theInput); //användarens val av kategori
             this.currentGenre = database.getListBasedOnCategory(chosenGenre); //hämtar hela kategorin med tre frågor
             Collections.shuffle(currentGenre); //shufflar frågorna
@@ -58,7 +57,7 @@ public class Protocol {
         } else if (state == QUESTION3 && theInput.equalsIgnoreCase("ANSWERED")
         && questionsInRound == 3) { //om client tryckt på knapp igen och tre frågor ska ställas
             theOutput = currentGenre.get(2); //så skickas fråga 3
-            state = GENRE;
+            state = QUESTION1;
         } else if (questionsInRound < 1 || questionsInRound > 3) //om användaren ställt in färre än 1 eller fler än 3 frågor
             System.out.println("Välj minst 1 men max 3 frågor i game_settings-filen"); //kan göras snyggare
         return theOutput;
