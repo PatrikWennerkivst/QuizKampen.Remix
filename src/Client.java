@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client {
@@ -10,12 +11,29 @@ public class Client {
     PrintWriter out;
     ObjectOutputStream sender;
     ObjectInputStream in;
+    boolean start = true;
 
-    Client() throws IOException {
-            socket = new Socket("127.0.0.1", 8080);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            sender = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
+    String userMessage;
+    QuestionsAndAnswers qAndaA;
+
+    Client(){}
+
+    Client(boolean start) throws IOException, ClassNotFoundException {
+            this.start = start;
+            this.socket = new Socket(InetAddress.getLocalHost(), 8080);
+            this.out = new PrintWriter(socket.getOutputStream(), true);
+            this.sender = new ObjectOutputStream(socket.getOutputStream());
+            this.in = new ObjectInputStream(socket.getInputStream());
+
+            while(userMessage != null){
+                out.println(userMessage);
+            }
+            while(in != null){
+                Object read = this.in.readObject();
+                if(read instanceof QuestionsAndAnswers){
+                    this.qAndaA = (QuestionsAndAnswers) read;
+                }
+            }
     }
 
     /*
@@ -24,7 +42,10 @@ public class Client {
     servern "ANSWERED", så servern kan skicka ett nytt objekt med frågor och svar
      */
     public void sendToServer(String userMessage){
-            out.println(userMessage);
+            this.userMessage = userMessage;
+    }
+    public String getUserMessage(){
+        return userMessage;
     }
 
     /*
@@ -32,12 +53,7 @@ public class Client {
     ett objekt med frågor och svar.
     Sedan får obejktet delas upp i strängar, antingen i denna klass, eller i GUI klassen
      */
-    public QuestionsAndAnswers readFromServer() throws IOException, ClassNotFoundException {
-        Object read = in.readObject();
-        if(read instanceof QuestionsAndAnswers){
-            QuestionsAndAnswers newQuestion = (QuestionsAndAnswers) read;
-            return newQuestion;
-        }
-        return null;
+    public QuestionsAndAnswers readFromServer(){
+        return qAndaA;
     }
 }

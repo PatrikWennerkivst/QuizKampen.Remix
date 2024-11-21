@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class StartGUI extends JFrame implements ActionListener {
 
@@ -42,7 +43,8 @@ public class StartGUI extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == classicGameButton) {
-                CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
+                CategorySecletionGUI categorySelectionGUI = null;
+                categorySelectionGUI = new CategorySecletionGUI();
                 categorySelectionGUI.choosCategory();
                 // Stänger ner fönstret efter att classicButton tryckts
                 ((JFrame) SwingUtilities.getWindowAncestor(classicGameButton)).dispose();
