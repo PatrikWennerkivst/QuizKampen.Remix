@@ -21,8 +21,7 @@ public class MultiUser {
         try{
             for (ObjectOutputStream createConnection : writerList) {
                 createConnection.writeObject(message);
-        }
-
+            }
         } catch (IOException e) {
            e.printStackTrace();
         }

@@ -12,6 +12,7 @@ public class RoundGUI implements ActionListener {
     private String otherUserAlias = "Other user";
     private String[] categories = {"Category One", "Category Two", "Category Three", "Category Four", "Category Five", "Category Six"};
     JButton nextQuestionButton = new JButton("Fortsätt");
+    Client client;
 
     public RoundGUI() {
         startRound();
@@ -69,8 +70,8 @@ public class RoundGUI implements ActionListener {
         if (e.getSource() == nextQuestionButton) {
             ClassicGameGUI classicGameGUI = null;
             try {
-                classicGameGUI = new ClassicGameGUI();
-                classicGameGUI.starClassicGame();
+                classicGameGUI = new ClassicGameGUI(client);
+                classicGameGUI.start();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             } catch (ClassNotFoundException ex) {

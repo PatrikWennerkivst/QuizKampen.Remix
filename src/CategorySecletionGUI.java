@@ -7,7 +7,7 @@ import java.util.Random;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class CategorySecletionGUI implements ActionListener {
+public class CategorySecletionGUI implements ActionListener{
 
     private JButton categoryOne = new JButton();
     private JButton categoryTwo = new JButton();
@@ -57,17 +57,13 @@ public class CategorySecletionGUI implements ActionListener {
             client.start();
             System.out.println("CategorySelecition:" + selectedCategory);
             client.sendToServer(selectedCategory);
-            QuestionsAndAnswers questions = client.readFromServer();
-            if (questions != null) {  // Check if data is available
+              // Check if data is available
                 try {
-                    ClassicGameGUI gameGUI = new ClassicGameGUI();
-                    gameGUI.starClassicGame();  // Start the game
+                    ClassicGameGUI gameGUI = new ClassicGameGUI(client);
+                    gameGUI.start();  // Start the game
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            } else {
-                System.out.println("No data received from server. Could not start game.");
-            }
             //Stänger ner fönstret när vilken JButton som helst trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
         }

@@ -50,12 +50,13 @@ public class Protocol {
             chosenGenre = findCategory(theInput);
             this.currentGenre = database.getListBasedOnCategory(chosenGenre);
             shuffle(currentGenre);
+            theOutput = currentGenre.get(0);
             state = QUESTION1;
         } else if(state == QUESTION1 && theInput.equalsIgnoreCase("ANSWERED")){
-            theOutput = currentGenre.get(0);
+            theOutput = currentGenre.get(1);
             state = QUESTION2;
         } else if(state == QUESTION2){
-            theOutput = currentGenre.get(1);
+            theOutput = currentGenre.get(2);
             state = GENRE;
         }
         return theOutput;
@@ -64,6 +65,7 @@ public class Protocol {
     public Categories findCategory(String genreString){
         for(Categories genre : genres){
             if (genreString.equals(genre.category)){
+                System.out.println("Kategorin: " + genre.category + " hittad");
                 return genre;
             }
         }

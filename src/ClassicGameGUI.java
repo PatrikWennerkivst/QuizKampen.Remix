@@ -7,12 +7,12 @@ import java.io.IOException;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
-public class ClassicGameGUI implements ActionListener {
+public class ClassicGameGUI extends Thread implements ActionListener {
     private String userAlias = "User alias";
     private String categoryName = "Category name";
     private String otherUserAlias = "Other user";
-    Client client = new Client();
-    QuestionsAndAnswers qAndA;
+    Client client;
+    ClassicGameGUI gameGui;
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -21,24 +21,32 @@ public class ClassicGameGUI implements ActionListener {
     JButton wrongAwnser3 = new JButton();
     JButton continueButton = new JButton("Continue");
 
+    JFrame gameFrame = new JFrame("Classic game mode");
+    JPanel wholeGamePanel = new JPanel(new GridLayout(4, 1));
+    JPanel topGamePanel = new JPanel(new BorderLayout());
+    JPanel userInfoPanel = new JPanel(new GridLayout(1, 3));
+    JPanel answersPanel = new JPanel(new GridLayout(2, 2));
 
-    public ClassicGameGUI() throws IOException, ClassNotFoundException {
-        starClassicGame();
+    JLabel userAliasLabel = new JLabel(userAlias);
+    JLabel categoryLabel = new JLabel(categoryName);
+    JLabel otherUserAliasLabel = new JLabel(otherUserAlias);
+    JLabel timer = new JLabel("Timer goes here");
+
+
+    public ClassicGameGUI(Client client) throws IOException, ClassNotFoundException {
+        this.client = client;
+        this.gameGui = this;
     }
 
-    public void starClassicGame() throws IOException, ClassNotFoundException {
-        JFrame gameFrame = new JFrame("Classic game mode");
-        JPanel wholeGamePanel = new JPanel(new GridLayout(4, 1));
-        JPanel topGamePanel = new JPanel(new BorderLayout());
-        JPanel userInfoPanel = new JPanel(new GridLayout(1, 3));
-        JPanel answersPanel = new JPanel(new GridLayout(2, 2));
+    public void run(){
 
-        JLabel userAliasLabel = new JLabel(userAlias);
-        JLabel categoryLabel = new JLabel(categoryName);
-        JLabel otherUserAliasLabel = new JLabel(otherUserAlias);
-        JLabel timer = new JLabel("Timer goes here");
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
-        qAndA = client.readFromServer();
+        QuestionsAndAnswers qAndA = client.readFromServer();
         if(qAndA !=null) {
             gameQuesiton.setText(qAndA.getQuestion());
             rigthAwnser.setText(qAndA.getRightAnswer());
@@ -136,7 +144,7 @@ public class ClassicGameGUI implements ActionListener {
 
     public class ContinueButtonListener implements ActionListener {
         private final JButton continueButton;
-        ClassicGameGUI gameGui;
+
         public ContinueButtonListener(JButton continueButton) {
             this.continueButton = continueButton;
         }
@@ -147,7 +155,7 @@ public class ClassicGameGUI implements ActionListener {
 
             if (e.getSource() == continueButton) {
                 if (clickCounter <= 2) {
-                    qAndA = client.readFromServer();
+                    QuestionsAndAnswers qAndA = client.readFromServer();
                     gameGui.gameQuesiton.setText(qAndA.getQuestion());
                     gameGui.rigthAwnser.setText(qAndA.getRightAnswer());
                     gameGui.wrongAwnser1.setText(qAndA.getFirstAnswer());

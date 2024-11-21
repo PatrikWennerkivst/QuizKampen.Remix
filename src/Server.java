@@ -22,8 +22,9 @@ public class Server extends  Thread{
             Protocol protocol = new Protocol();
 
             while((inputLine = reader.readLine()) != null) {
-                    System.out.println(inputLine.trim());
-                    questionsAndAnswers = protocol.gameProcess(inputLine.trim());
+                    System.out.println(inputLine.substring(4));
+                    questionsAndAnswers = protocol.gameProcess(inputLine.substring(4));
+                    System.out.println(questionsAndAnswers.getQuestion());
                     multiUser.print(questionsAndAnswers);
                     //Här anropas gameProcess metoden utan att skicka in ny kategori
             }

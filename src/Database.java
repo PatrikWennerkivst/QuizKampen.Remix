@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,9 +44,18 @@ public class Database {
     }
 
 //metod som gör att man kan hämta frågor och svar för en specifik kategori
-    public List<QuestionsAndAnswers> getListBasedOnCategory(Categories category){
-       return questionsAndAnswers.stream().filter(r -> r.getCategories().category.equals(category.category)).collect(Collectors.toList());
-    }
+public List<QuestionsAndAnswers> getListBasedOnCategory(Categories category) {
+     if (category == null || category.category == null) {
+          System.out.println("Category or category name is null. Cannot filter questions.");
+          return Collections.emptyList();
+     }
+
+     return questionsAndAnswers.stream()
+             .filter(r -> r.getCategories() != null &&
+                     r.getCategories().category != null &&
+                     r.getCategories().category.equals(category.category))
+             .collect(Collectors.toList());
+}
 //getter
      public List<QuestionsAndAnswers> getQuestionsAndAnswers() {
           return questionsAndAnswers;

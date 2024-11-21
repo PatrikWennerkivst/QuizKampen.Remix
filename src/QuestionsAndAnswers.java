@@ -1,4 +1,6 @@
-public class QuestionsAndAnswers {
+import java.io.Serializable;
+
+public class QuestionsAndAnswers implements Serializable {
 // skapar objekt av frågor och svar
 private String question;
 private String firstAnswer;
