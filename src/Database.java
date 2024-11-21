@@ -32,7 +32,7 @@ public class Database {
          questionsAndAnswersList.add( new QuestionsAndAnswers("Vilket tema hade operativsystemet Android på sina versioner fram till 2019, då man övergick till enbart siffror? ","Frukter", "Städer", "Sötsaker", "Sötsaker", Categories.TEKNIKENS_UNDER));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Hur många tävlande hade Squid game","421", "435", "456", "456", Categories.TV_SERIER));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Var utspelar sig serien Magnum?","Hawaii", "Dominikanska republiken", "Miami", "Hawaii", Categories.TV_SERIER));
-         questionsAndAnswersList.add( new QuestionsAndAnswers("Hur många säsonger har serien La casa de papel?","3", "5", "6", "5", Categories.TV_SERIER)); //Svaren behöver nog rättas här
+         questionsAndAnswersList.add( new QuestionsAndAnswers("Hur många säsonger har serien La casa de papel?","3", "5", "6", "5", Categories.TV_SERIER));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Från vilket land kommer spelet Padel från?","Mexiko", "Argentina", "Spanien", "Man slänger salt över axeln", Categories.SPORT_OCH_FRITID));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Den svenske tennisspelaren Björn Borg har kammat hem många vinster. Hur många vinster har han totalt vunnit i Wimbledon? ","3", "7", "5", "5", Categories.SPORT_OCH_FRITID));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Fotbollsspelaren Christiano Ronaldo har blivit utsedd till världens bästa fotbollsspelare. Vilket år var det? ","2008", "2012", "2016", "2008", Categories.SPORT_OCH_FRITID));

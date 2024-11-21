@@ -74,5 +74,3 @@ public class Protocol {
         return null;
     }
 }
-
-

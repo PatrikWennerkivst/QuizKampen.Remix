@@ -17,9 +17,6 @@ private Categories categories;
         this.categories = categories;
     }
     // getters
-
-
-
     public String getQuestion() {
         return question;
     }
@@ -45,7 +42,6 @@ private Categories categories;
     }
 
     //setters
-
     public void setQuestion(String question) {
         this.question = question;
     }
