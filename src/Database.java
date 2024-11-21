@@ -41,6 +41,7 @@ public class Database {
          questionsAndAnswersList.add( new QuestionsAndAnswers("I vilket land ligger Noux nationalpark?","Frankrike", "Finland", "Kanada", "Kanada", Categories.DJUR_OCH_NATUR));
          return questionsAndAnswersList;
     }
+
 //metod som gör att man kan hämta frågor och svar för en specifik kategori
     public List<QuestionsAndAnswers> getListBasedOnCategory(Categories category){
        return questionsAndAnswers.stream().filter(r -> r.getCategories().category.equals(category.category)).collect(Collectors.toList());
