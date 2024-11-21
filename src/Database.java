@@ -37,7 +37,7 @@ public class Database {
          questionsAndAnswersList.add( new QuestionsAndAnswers("Den svenske tennisspelaren Björn Borg har kammat hem många vinster. Hur många vinster har han totalt vunnit i Wimbledon? ","3", "7", "5", "5", Categories.SPORT_OCH_FRITID));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Fotbollsspelaren Christiano Ronaldo har blivit utsedd till världens bästa fotbollsspelare. Vilket år var det? ","2008", "2012", "2016", "2008", Categories.SPORT_OCH_FRITID));
          questionsAndAnswersList.add( new QuestionsAndAnswers("Vilket är världens största tandfösedda djur?","Elefant", "Blåval", "Kaskelot", "Kaskelot", Categories.DJUR_OCH_NATUR));
-         questionsAndAnswersList.add( new QuestionsAndAnswers("Vad brukar lodjuren äta?","Lodjur är allätare", "Algar och vildsvin", "Rådjur, harar och skogfåglar balnd annat", "Hawaii", Categories.DJUR_OCH_NATUR));
+         questionsAndAnswersList.add( new QuestionsAndAnswers("Vad brukar lodjuren äta?","Lodjur är allätare", "Algar och vildsvin", "Rådjur, harar och skogfåglar balnd annat", "Rådjur, harar och skogfåglar balnd annat", Categories.DJUR_OCH_NATUR));
          questionsAndAnswersList.add( new QuestionsAndAnswers("I vilket land ligger Noux nationalpark?","Frankrike", "Finland", "Kanada", "Kanada", Categories.DJUR_OCH_NATUR));
          return questionsAndAnswersList;
     }
