@@ -2,17 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Random;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class CategorySecletionGUI implements ActionListener {
+public class CategorySecletionGUI implements ActionListener{
 
-    private JButton categoryOne = new JButton("Category one");
-    private JButton categoryTwo = new JButton("Category two");
-    private JButton categoryThree = new JButton("Category three");
-    private JLabel chooseCategory = new JLabel("Choose category");
+    private JButton categoryOne = new JButton();
+    private JButton categoryTwo = new JButton();
+    private JButton categoryThree = new JButton();
+    private JLabel chooseCategory = new JLabel();
+    Protocol protocol = new Protocol();
+    Client client = new Client();
 
-    public CategorySecletionGUI() {
+
+    public CategorySecletionGUI(){
     }
 
     public void choosCategory(){
@@ -25,6 +30,12 @@ public class CategorySecletionGUI implements ActionListener {
         categoryPanel.setBackground(Color.blue);
         categoryPanel.add(chooseCategory);
         chooseCategory.setHorizontalAlignment(SwingConstants.CENTER);
+
+        //Anropar metoden som slumpar en kategori från Protocol och skriver ut det med hjälp av toString
+        categoryOne.setText(protocol.randomizeCategory().category);
+        categoryTwo.setText(protocol.randomizeCategory().category);
+        categoryThree.setText(protocol.randomizeCategory().category);
+
         categoryPanel.add(categoryOne);
         categoryPanel.add(categoryTwo);
         categoryPanel.add(categoryThree);
@@ -42,8 +53,17 @@ public class CategorySecletionGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
-            ClassicGameGUI gameGUI = new ClassicGameGUI();
-            gameGUI.starClassicGame();
+            String selectedCategory = ((JButton)e.getSource()).getText();
+            client.start();
+            System.out.println("CategorySelecition:" + selectedCategory);
+            client.sendToServer(selectedCategory);
+              // Check if data is available
+                try {
+                    ClassicGameGUI gameGUI = new ClassicGameGUI(client);
+                    gameGUI.start();  // Start the game
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             //Stänger ner fönstret när vilken JButton som helst trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
         }

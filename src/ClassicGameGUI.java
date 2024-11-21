@@ -2,36 +2,59 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
-public class ClassicGameGUI implements ActionListener {
+public class ClassicGameGUI extends Thread implements ActionListener {
     private String userAlias = "User alias";
     private String categoryName = "Category name";
     private String otherUserAlias = "Other user";
+    Client client;
+    ClassicGameGUI gameGui;
 
-    public ClassicGameGUI() {
-        starClassicGame();
+    JButton gameQuesiton = new JButton();
+    JButton rigthAwnser = new JButton();
+    JButton wrongAwnser1 = new JButton();
+    JButton wrongAwnser2 = new JButton();
+    JButton wrongAwnser3 = new JButton();
+    JButton continueButton = new JButton("Continue");
+
+    JFrame gameFrame = new JFrame("Classic game mode");
+    JPanel wholeGamePanel = new JPanel(new GridLayout(4, 1));
+    JPanel topGamePanel = new JPanel(new BorderLayout());
+    JPanel userInfoPanel = new JPanel(new GridLayout(1, 3));
+    JPanel answersPanel = new JPanel(new GridLayout(2, 2));
+
+    JLabel userAliasLabel = new JLabel(userAlias);
+    JLabel categoryLabel = new JLabel(categoryName);
+    JLabel otherUserAliasLabel = new JLabel(otherUserAlias);
+    JLabel timer = new JLabel("Timer goes here");
+
+
+    public ClassicGameGUI(Client client) throws IOException, ClassNotFoundException {
+        this.client = client;
+        this.gameGui = this;
     }
 
-    public void starClassicGame() {
-        JFrame gameFrame = new JFrame("Classic game mode");
-        JPanel wholeGamePanel = new JPanel(new GridLayout(4, 1));
-        JPanel topGamePanel = new JPanel(new BorderLayout());
-        JPanel userInfoPanel = new JPanel(new GridLayout(1, 3));
-        JPanel answersPanel = new JPanel(new GridLayout(2, 2));
+    public void run(){
 
-        JLabel userAliasLabel = new JLabel(userAlias);
-        JLabel categoryLabel = new JLabel(categoryName);
-        JLabel otherUserAliasLabel = new JLabel(otherUserAlias);
-        JLabel timer = new JLabel("Timer goes here");
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
-        JButton gameQuesiton = new JButton("Question: bla bla bla bla bla bla bla");
-        JButton rigthAwnser = new JButton("Right");
-        JButton wrongAwnser1 = new JButton("Wrong 1");
-        JButton wrongAwnser2 = new JButton("Wrong 2");
-        JButton wrongAwnser3 = new JButton("Wrong 3");
-        JButton continueButton = new JButton("Continue");
+        QuestionsAndAnswers qAndA = client.readFromServer();
+        if(qAndA !=null) {
+            gameQuesiton.setText(qAndA.getQuestion());
+            rigthAwnser.setText(qAndA.getRightAnswer());
+            wrongAwnser1.setText(qAndA.getFirstAnswer());
+            wrongAwnser2.setText(qAndA.getSecondAnswer());
+            wrongAwnser3.setText(qAndA.getThirdAnswer());
+        } else
+            System.out.println("No question found");
 
         gameFrame.add(wholeGamePanel);
         wholeGamePanel.setBackground(Color.blue);
@@ -84,6 +107,7 @@ public class ClassicGameGUI implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             rightAnswer.setBackground(Color.GREEN);
             continueButton.setVisible(true);
+            client.sendToServer("ANSWERED");
         }
     }
 
@@ -104,12 +128,15 @@ public class ClassicGameGUI implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == wrongAwnser1) {
                 wrongAwnser1.setBackground(Color.red);
+                client.sendToServer("ANSWERED");
                 continueButton.setVisible(true);
             } else if (e.getSource() == wrongAwnser2) {
                 wrongAwnser2.setBackground(Color.red);
+                client.sendToServer("ANSWERED");
                 continueButton.setVisible(true);
             } else if (e.getSource() == wrongAwnser3) {
                 wrongAwnser3.setBackground(Color.red);
+                client.sendToServer("ANSWERED");
                 continueButton.setVisible(true);
             }
         }
@@ -121,10 +148,22 @@ public class ClassicGameGUI implements ActionListener {
         public ContinueButtonListener(JButton continueButton) {
             this.continueButton = continueButton;
         }
+        int clickCounter = 0;
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             if (e.getSource() == continueButton) {
+                if (clickCounter <= 2) {
+                    QuestionsAndAnswers qAndA = client.readFromServer();
+                    gameGui.gameQuesiton.setText(qAndA.getQuestion());
+                    gameGui.rigthAwnser.setText(qAndA.getRightAnswer());
+                    gameGui.wrongAwnser1.setText(qAndA.getFirstAnswer());
+                    gameGui.wrongAwnser2.setText(qAndA.getSecondAnswer());
+                    gameGui.wrongAwnser3.setText(qAndA.getThirdAnswer());
+                    clickCounter++;
+                }
+                clickCounter = 0;
                 RoundGUI roundGUI = new RoundGUI();
                 roundGUI.startRound();
                 //Stänger ner fönstret när continueButton trycks ner

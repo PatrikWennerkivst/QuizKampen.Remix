@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class RoundGUI implements ActionListener {
@@ -10,6 +12,7 @@ public class RoundGUI implements ActionListener {
     private String otherUserAlias = "Other user";
     private String[] categories = {"Category One", "Category Two", "Category Three", "Category Four", "Category Five", "Category Six"};
     JButton nextQuestionButton = new JButton("Fortsätt");
+    Client client;
 
     public RoundGUI() {
         startRound();
@@ -65,8 +68,16 @@ public class RoundGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nextQuestionButton) {
-            ClassicGameGUI classicGameGUI = new ClassicGameGUI();
-            classicGameGUI.starClassicGame();
+            ClassicGameGUI classicGameGUI = null;
+            try {
+                classicGameGUI = new ClassicGameGUI(client);
+                classicGameGUI.start();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
             //Stänger ner fönstret när nextQuestionButton trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor(nextQuestionButton)).dispose();
         }

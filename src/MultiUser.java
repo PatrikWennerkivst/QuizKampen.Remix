@@ -6,7 +6,7 @@ import java.util.List;
         Denna klass agerar brygga mellan varje uppstartad server.
  */
 public class MultiUser {
-    private List<ObjectOutputStream> writerList = new ArrayList<ObjectOutputStream>();
+    private List<ObjectOutputStream> writerList = new ArrayList<>();
 
     public void addWriter(ObjectOutputStream createConnection) {
         writerList.add(createConnection);
@@ -21,8 +21,7 @@ public class MultiUser {
         try{
             for (ObjectOutputStream createConnection : writerList) {
                 createConnection.writeObject(message);
-        }
-
+            }
         } catch (IOException e) {
            e.printStackTrace();
         }
