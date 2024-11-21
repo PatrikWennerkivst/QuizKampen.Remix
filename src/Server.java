@@ -21,17 +21,11 @@ public class Server extends  Thread{
 
             Protocol protocol = new Protocol();
 
-            while(true) {
-                //när spelaren valt kategori, skickas det från clienten
-                //och sparas som inputline, och gameProcess metoden anropas
-                if ((inputLine = reader.readLine()) != null) {
-                    questionsAndAnswers = protocol.gameProcess(inputLine);
+            while((inputLine = reader.readLine()) != null) {
+                    System.out.println(inputLine.trim());
+                    questionsAndAnswers = protocol.gameProcess(inputLine.trim());
                     multiUser.print(questionsAndAnswers);
                     //Här anropas gameProcess metoden utan att skicka in ny kategori
-                } else {
-                    questionsAndAnswers = protocol.gameProcess(null);
-                    multiUser.print(questionsAndAnswers);
-                }
             }
 
         }catch (IOException e) {

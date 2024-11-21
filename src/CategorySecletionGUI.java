@@ -54,14 +54,19 @@ public class CategorySecletionGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
             String selectedCategory = ((JButton)e.getSource()).getText();
+            client.start();
+            System.out.println("CategorySelecition:" + selectedCategory);
             client.sendToServer(selectedCategory);
-            try {
-                ClassicGameGUI gameGUI = new ClassicGameGUI();
-                gameGUI.starClassicGame();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+            QuestionsAndAnswers questions = client.readFromServer();
+            if (questions != null) {  // Check if data is available
+                try {
+                    ClassicGameGUI gameGUI = new ClassicGameGUI();
+                    gameGUI.starClassicGame();  // Start the game
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                System.out.println("No data received from server. Could not start game.");
             }
             //Stänger ner fönstret när vilken JButton som helst trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();

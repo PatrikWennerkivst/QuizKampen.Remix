@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class Client {
+public class Client extends Thread {
     /*
     Eventuellt lägga över Swing i GUI.
      */
@@ -11,29 +11,47 @@ public class Client {
     PrintWriter out;
     ObjectOutputStream sender;
     ObjectInputStream in;
-    boolean start = true;
 
-    String userMessage;
+    String userMessage = "";
     QuestionsAndAnswers qAndaA;
+    boolean waitingForResponse = false;
 
     Client(){}
 
-    Client(boolean start) throws IOException, ClassNotFoundException {
-            this.start = start;
-            this.socket = new Socket(InetAddress.getLocalHost(), 8080);
-            this.out = new PrintWriter(socket.getOutputStream(), true);
-            this.sender = new ObjectOutputStream(socket.getOutputStream());
-            this.in = new ObjectInputStream(socket.getInputStream());
+    @Override
+     public void run(){
+        try {
+            socket = new Socket("127.0.0.1", 23478);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            sender = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
 
-            while(userMessage != null){
-                out.println(userMessage);
-            }
-            while(in != null){
-                Object read = this.in.readObject();
-                if(read instanceof QuestionsAndAnswers){
-                    this.qAndaA = (QuestionsAndAnswers) read;
+            while(socket.isConnected()){
+                if(userMessage != null && !userMessage.isEmpty()){
+                    System.out.println(userMessage);
+                    out.println(userMessage);
+                    userMessage = null;
+                    waitingForResponse = true;
+                }
+                else {
+                    System.out.println("Det skickas inte");
+                }
+
+                if(waitingForResponse){
+                    Object read = in.readObject();
+                        if(read instanceof QuestionsAndAnswers){
+                            this.qAndaA = (QuestionsAndAnswers) read;
+                        }
                 }
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /*
@@ -54,6 +72,10 @@ public class Client {
     Sedan får obejktet delas upp i strängar, antingen i denna klass, eller i GUI klassen
      */
     public QuestionsAndAnswers readFromServer(){
+        if(qAndaA == null){
+            System.out.println("No questions and answers received");
+            return null;
+        }
         return qAndaA;
     }
 }

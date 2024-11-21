@@ -39,12 +39,14 @@ public class ClassicGameGUI implements ActionListener {
         JLabel timer = new JLabel("Timer goes here");
 
         qAndA = client.readFromServer();
-
-        gameQuesiton.setText(qAndA.getQuestion());
-        rigthAwnser.setText(qAndA.getRightAnswer());
-        wrongAwnser1.setText(qAndA.getFirstAnswer());
-        wrongAwnser2.setText(qAndA.getSecondAnswer());
-        wrongAwnser3.setText(qAndA.getThirdAnswer());
+        if(qAndA !=null) {
+            gameQuesiton.setText(qAndA.getQuestion());
+            rigthAwnser.setText(qAndA.getRightAnswer());
+            wrongAwnser1.setText(qAndA.getFirstAnswer());
+            wrongAwnser2.setText(qAndA.getSecondAnswer());
+            wrongAwnser3.setText(qAndA.getThirdAnswer());
+        } else
+            System.out.println("No question found");
 
         gameFrame.add(wholeGamePanel);
         wholeGamePanel.setBackground(Color.blue);
