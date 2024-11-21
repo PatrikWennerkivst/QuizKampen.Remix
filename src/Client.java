@@ -35,7 +35,7 @@ public class Client extends Thread {
 
                     // Immediately try to read the response
                     try {
-                        Object read = in.readObject();
+                        Object read = in.readObject();  // här smäller det i StartClient
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
                             this.qAndA = (QuestionsAndAnswers) read;

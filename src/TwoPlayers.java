@@ -32,5 +32,15 @@ public class TwoPlayers {
         // Växlar till nästa spelare (0 -> 1 eller 1 -> 0)
         currentPlayer = (currentPlayer + 1) % 2;
     }
+}
+       /*public void main(String[] args) {
+            Database db = new Database();
+            Categories category = Categories.JORDEN_RUNT;
+            TwoPlayers game = new TwoPlayers(db, category);
+            game.playRound();
+            game.playRound();
 
 }
+
+        */
+

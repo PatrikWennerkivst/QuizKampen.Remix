@@ -156,7 +156,7 @@ public class ClassicGameGUI extends Thread implements ActionListener {
             if (e.getSource() == continueButton) {
                 if (clickCounter <= 2) {
                     QuestionsAndAnswers qAndA = client.readFromServer();
-                    gameGui.gameQuesiton.setText(qAndA.getQuestion());
+                    gameGui.gameQuesiton.setText(qAndA.getQuestion());  // Här smäller det i StartClient
                     gameGui.rigthAwnser.setText(qAndA.getRightAnswer());
                     gameGui.wrongAwnser1.setText(qAndA.getFirstAnswer());
                     gameGui.wrongAwnser2.setText(qAndA.getSecondAnswer());
