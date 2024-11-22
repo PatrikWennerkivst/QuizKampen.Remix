@@ -177,6 +177,11 @@ public class ClientGUI extends JFrame {
                 wrongAwnser1.setText(qAndA.getFirstAnswer());
                 wrongAwnser2.setText(qAndA.getSecondAnswer());
                 wrongAwnser3.setText(qAndA.getThirdAnswer());
+
+                rigthAwnser.setBackground(null);
+                wrongAwnser1.setBackground(null);
+                wrongAwnser2.setBackground(null);
+                wrongAwnser3.setBackground(null);
             } else {
                 clickCounter = 0;
                 System.exit(0);

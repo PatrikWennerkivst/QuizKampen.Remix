@@ -51,9 +51,9 @@ public class StartGUI extends JFrame implements ActionListener {
 
             }
         }
-    public void main(String[] args) {
+    //public void main(String[] args) {
 
-    }
+    //}
 }
 
 
