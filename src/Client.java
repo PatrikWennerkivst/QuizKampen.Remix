@@ -3,9 +3,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client extends Thread {
-    /*
-    Eventuellt lägga över Swing i GUI.
-     */
+
 
     Socket socket;
     PrintWriter out;
@@ -85,4 +83,9 @@ public class Client extends Thread {
         System.out.println("No questions received after waiting.");
         return null;
     }
+
+
+    //GUI
+
+
 }
