@@ -166,8 +166,8 @@ public class ClientGUI extends JFrame {
         });
 
         wrongAwnser1.addActionListener(l -> wrongAnswerAction(wrongAwnser1));
-        wrongAwnser2.addActionListener(l -> wrongAnswerAction(wrongAwnser1));
-        wrongAwnser3.addActionListener(l -> wrongAnswerAction(wrongAwnser1));
+        wrongAwnser2.addActionListener(l -> wrongAnswerAction(wrongAwnser2));
+        wrongAwnser3.addActionListener(l -> wrongAnswerAction(wrongAwnser3));
 
         continueButton.addActionListener(l -> {
             clickCounter++;
