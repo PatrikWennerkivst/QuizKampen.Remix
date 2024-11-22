@@ -9,7 +9,7 @@ public class Client extends Thread {
     PrintWriter out;
     ObjectOutputStream sender;
     ObjectInputStream in;
-    ClassicGameGUI classicGame;
+    private ClassicGameGUI classicGame;
 
     private String userMessage = "";
     private QuestionsAndAnswers qAndA = null;
@@ -37,8 +37,9 @@ public class Client extends Thread {
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
                             qAndA = (QuestionsAndAnswers) read;
-                            classicGame = new ClassicGameGUI(this, qAndA);
-                            classicGame.start();
+                            classicGame.setqAndA(qAndA);
+                            //classicGame = new ClassicGameGUI(this, qAndA);
+                            //classicGame.start();
                             System.out.println("Received question: " + qAndA.getQuestion());
                             System.out.println(qAndA.getRightAnswer());
                         }
@@ -81,8 +82,14 @@ public class Client extends Thread {
         return null;
     }
 
+    public ClassicGameGUI getClassicGame() {
+        return classicGame;
+    }
 
-    //GUI
+    public void setClassicGame(ClassicGameGUI classicGame) {
+        this.classicGame = classicGame;
+    }
+//GUI
 
 
 }

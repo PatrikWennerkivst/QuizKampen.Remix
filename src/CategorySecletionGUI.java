@@ -15,6 +15,7 @@ public class CategorySecletionGUI implements ActionListener{
     private JLabel chooseCategory = new JLabel();
     Protocol protocol = new Protocol();
     Client client = new Client();
+    QuestionsAndAnswers qaa;
 
 
     public CategorySecletionGUI(){
@@ -57,6 +58,15 @@ public class CategorySecletionGUI implements ActionListener{
             client.start();
             System.out.println("CategorySelecition:" + selectedCategory);
             client.sendToServer(selectedCategory);
+            ClassicGameGUI classic = null;
+            try {
+                classic = new ClassicGameGUI(client, qaa);
+                client.setClassicGame(classic);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             //Stänger ner fönstret när vilken JButton som helst trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
         }

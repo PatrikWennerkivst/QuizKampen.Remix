@@ -13,7 +13,7 @@ public class ClassicGameGUI extends Thread implements ActionListener {
     private String otherUserAlias = "Other user";
     Client client;
     ClassicGameGUI gameGui;
-    QuestionsAndAnswers qAndA = null;
+    private QuestionsAndAnswers qAndA;
 
     int clickCounter;
 
@@ -143,5 +143,13 @@ public class ClassicGameGUI extends Thread implements ActionListener {
             }
             continueButton.setVisible(true);
         }
+    }
+
+    public QuestionsAndAnswers getqAndA() {
+        return qAndA;
+    }
+
+    public void setqAndA(QuestionsAndAnswers qAndA) {
+        this.qAndA = qAndA;
     }
 }
