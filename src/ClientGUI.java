@@ -136,6 +136,8 @@ public class Client {
                     // Startar CategorySelectionGUI när classicGameButton trycks
                     CategorySecletionGUI categorySelectionGUI = new CategorySecletionGUI();
                     categorySelectionGUI.choosCategory();
+                    // Stänger ner fönstret efter att classicButton tryckts
+                    ((JFrame) SwingUtilities.getWindowAncestor(classicGameButton)).dispose();
                 }
             }
 
@@ -176,6 +178,8 @@ public class Client {
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
                         new ClassicGameGUI();
+                        //Stänger ner fönstret när vilken JButton som helst trycks ner
+                        ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
                     }
                 }
             }
