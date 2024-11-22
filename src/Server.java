@@ -22,8 +22,8 @@ public class Server extends  Thread{
             Protocol protocol = new Protocol();
 
             while((inputLine = reader.readLine()) != null) {
-                    System.out.println(inputLine.substring(4));
-                    questionsAndAnswers = protocol.gameProcess(inputLine.substring(4));
+                    System.out.println(inputLine);
+                    questionsAndAnswers = protocol.gameProcess(inputLine);
                     System.out.println(questionsAndAnswers.getQuestion()); // Här smäller det i StartServerListener
                     multiUser.print(questionsAndAnswers);
                     //Här anropas gameProcess metoden utan att skicka in ny kategori

@@ -13,6 +13,9 @@ public class ClassicGameGUI extends Thread implements ActionListener {
     private String otherUserAlias = "Other user";
     Client client;
     ClassicGameGUI gameGui;
+    private QuestionsAndAnswers qAndA;
+
+    int clickCounter;
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -33,29 +36,34 @@ public class ClassicGameGUI extends Thread implements ActionListener {
     JLabel timer = new JLabel("Timer goes here");
 
 
-    public ClassicGameGUI(Client client) throws IOException, ClassNotFoundException {
+    public ClassicGameGUI(Client client, QuestionsAndAnswers qAndA) throws IOException, ClassNotFoundException {
         this.client = client;
+        this.qAndA = qAndA;
         this.gameGui = this;
     }
 
     public void run(){
 
-        try{
-            Thread.sleep(1000);
-        } catch (InterruptedException e){
-            e.printStackTrace();
+        clickCounter = 0;
+
+        for (int i = 0; i < 50; i++) {  // 5 seconds total wait
+            if (qAndA!=null) {
+                gameQuesiton.setText(qAndA.getQuestion());
+                rigthAwnser.setText(qAndA.getRightAnswer());
+                wrongAwnser1.setText(qAndA.getFirstAnswer());
+                wrongAwnser2.setText(qAndA.getSecondAnswer());
+                wrongAwnser3.setText(qAndA.getThirdAnswer());
+                break;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
-        QuestionsAndAnswers qAndA = client.readFromServer();
-        if(qAndA !=null) {
-            gameQuesiton.setText(qAndA.getQuestion());
-            rigthAwnser.setText(qAndA.getRightAnswer());
-            wrongAwnser1.setText(qAndA.getFirstAnswer());
-            wrongAwnser2.setText(qAndA.getSecondAnswer());
-            wrongAwnser3.setText(qAndA.getThirdAnswer());
-        } else
-            System.out.println("No question found");
-
+        if(qAndA==null) {
+            System.out.println("No questions received after waiting.");
+        }
         gameFrame.add(wholeGamePanel);
         wholeGamePanel.setBackground(Color.blue);
         wholeGamePanel.add(topGamePanel);
@@ -75,11 +83,36 @@ public class ClassicGameGUI extends Thread implements ActionListener {
         answersPanel.add(wrongAwnser2);
         answersPanel.add(wrongAwnser3);
 
-        rigthAwnser.addActionListener(new ClassicGameGUI.RightAnswerListener(rigthAwnser, continueButton));
-        wrongAwnser1.addActionListener(new ClassicGameGUI.WrongButtonListener(wrongAwnser1, wrongAwnser2, wrongAwnser3, continueButton));
-        wrongAwnser2.addActionListener(new ClassicGameGUI.WrongButtonListener(wrongAwnser1, wrongAwnser2, wrongAwnser3, continueButton));
-        wrongAwnser3.addActionListener(new ClassicGameGUI.WrongButtonListener(wrongAwnser1, wrongAwnser2, wrongAwnser3, continueButton));
-        continueButton.addActionListener(new ClassicGameGUI.ContinueButtonListener(continueButton));
+        rigthAwnser.addActionListener(l -> {
+            rigthAwnser.setBackground(Color.GREEN);
+            if(clickCounter<1) {
+                client.sendToServer("ANSWERED");
+            }
+            continueButton.setVisible(true);
+        });
+
+        wrongAwnser1.addActionListener(this);
+        wrongAwnser2.addActionListener(this);
+        wrongAwnser3.addActionListener(this);
+
+        continueButton.addActionListener(l -> {
+            clickCounter++;
+            if (clickCounter <= 2) {
+                QuestionsAndAnswers qAndA = client.getQAndA();
+                gameGui.gameQuesiton.setText(qAndA.getQuestion());
+                gameGui.rigthAwnser.setText(qAndA.getRightAnswer());
+                gameGui.wrongAwnser1.setText(qAndA.getFirstAnswer());
+                gameGui.wrongAwnser2.setText(qAndA.getSecondAnswer());
+                gameGui.wrongAwnser3.setText(qAndA.getThirdAnswer());
+            } else {
+                clickCounter = 0;
+                //client.interrupt();
+                RoundGUI roundGUI = new RoundGUI();
+                roundGUI.startRound();
+                //Stänger ner fönstret när continueButton trycks ner
+                ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
+            }
+        });
 
         gameFrame.setSize(400, 600);
         gameFrame.setLocationRelativeTo(null);
@@ -91,84 +124,32 @@ public class ClassicGameGUI extends Thread implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-    }
-
-    public class RightAnswerListener implements ActionListener {
-        private final JButton rightAnswer;
-        private final JButton continueButton;
-
-        public RightAnswerListener(JButton rightAnswer, JButton continueButton) {
-            this.rightAnswer = rightAnswer;
-            this.continueButton = continueButton;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            rightAnswer.setBackground(Color.GREEN);
+        if (e.getSource() == wrongAwnser1) {
+            wrongAwnser1.setBackground(Color.red);
+            if(clickCounter<1) {
+                client.sendToServer("ANSWERED");
+            }
             continueButton.setVisible(true);
-            client.sendToServer("ANSWERED");
+        } else if (e.getSource() == wrongAwnser2) {
+            wrongAwnser2.setBackground(Color.red);
+            if(clickCounter<1) {
+                client.sendToServer("ANSWERED");
+            }
+            continueButton.setVisible(true);
+        } else if (e.getSource() == wrongAwnser3) {
+            wrongAwnser3.setBackground(Color.red);
+            if(clickCounter<1) {
+                client.sendToServer("ANSWERED");
+            }
+            continueButton.setVisible(true);
         }
     }
 
-    public class WrongButtonListener implements ActionListener {
-        private final JButton wrongAwnser1;
-        private final JButton wrongAwnser2;
-        private final JButton wrongAwnser3;
-        private final JButton continueButton;
-
-        public WrongButtonListener(JButton wrongAwnser1, JButton wrongAwnser2, JButton wrongAwnser3, JButton continueButton) {
-            this.wrongAwnser1 = wrongAwnser1;
-            this.wrongAwnser2 = wrongAwnser2;
-            this.wrongAwnser3 = wrongAwnser3;
-            this.continueButton = continueButton;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == wrongAwnser1) {
-                wrongAwnser1.setBackground(Color.red);
-                client.sendToServer("ANSWERED");
-                continueButton.setVisible(true);
-            } else if (e.getSource() == wrongAwnser2) {
-                wrongAwnser2.setBackground(Color.red);
-                client.sendToServer("ANSWERED");
-                continueButton.setVisible(true);
-            } else if (e.getSource() == wrongAwnser3) {
-                wrongAwnser3.setBackground(Color.red);
-                client.sendToServer("ANSWERED");
-                continueButton.setVisible(true);
-            }
-        }
+    public QuestionsAndAnswers getqAndA() {
+        return qAndA;
     }
 
-    public class ContinueButtonListener implements ActionListener {
-        private final JButton continueButton;
-
-        public ContinueButtonListener(JButton continueButton) {
-            this.continueButton = continueButton;
-        }
-        int clickCounter = 0;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            if (e.getSource() == continueButton) {
-                if (clickCounter <= 2) {
-                    QuestionsAndAnswers qAndA = client.readFromServer();
-                    gameGui.gameQuesiton.setText(qAndA.getQuestion());  // Här smäller det i StartClient
-                    gameGui.rigthAwnser.setText(qAndA.getRightAnswer());
-                    gameGui.wrongAwnser1.setText(qAndA.getFirstAnswer());
-                    gameGui.wrongAwnser2.setText(qAndA.getSecondAnswer());
-                    gameGui.wrongAwnser3.setText(qAndA.getThirdAnswer());
-                    clickCounter++;
-                }
-                clickCounter = 0;
-                RoundGUI roundGUI = new RoundGUI();
-                roundGUI.startRound();
-                //Stänger ner fönstret när continueButton trycks ner
-                ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
-            }
-        }
+    public void setqAndA(QuestionsAndAnswers qAndA) {
+        this.qAndA = qAndA;
     }
 }
