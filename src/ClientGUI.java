@@ -148,7 +148,14 @@ public class Client {
                 private JButton categoryThree = new JButton("Category three");
                 private JLabel chooseCategory = new JLabel("Choose category");
 
+                Protocol protocol = new Protocol();
+
                 public CategorySecletionGUI() {
+                    //Anropar metoden som slumpar en kategori från Protocol och skriver ut det med hjälp av toString
+                    categoryOne.setText(protocol.randomizeCategory().category);
+                    categoryTwo.setText(protocol.randomizeCategory().category);
+                    categoryThree.setText(protocol.randomizeCategory().category);
+
                     categoryOne.addActionListener(this);
                     categoryTwo.addActionListener(this);
                     categoryThree.addActionListener(this);
