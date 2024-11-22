@@ -57,13 +57,6 @@ public class CategorySecletionGUI implements ActionListener{
             client.start();
             System.out.println("CategorySelecition:" + selectedCategory);
             client.sendToServer(selectedCategory);
-              // Check if data is available
-                try {
-                    ClassicGameGUI gameGUI = new ClassicGameGUI(client);
-                    gameGUI.start();  // Start the game
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
             //Stänger ner fönstret när vilken JButton som helst trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
         }

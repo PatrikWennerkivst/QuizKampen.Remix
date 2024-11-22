@@ -69,9 +69,9 @@ public class RoundGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == nextQuestionButton) {
             ClassicGameGUI classicGameGUI = null;
+            QuestionsAndAnswers qAa = null;
             try {
-                classicGameGUI = new ClassicGameGUI(client);
-                classicGameGUI.start();
+                classicGameGUI = new ClassicGameGUI(client, qAa);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             } catch (ClassNotFoundException ex) {

@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
 
 //Client
 
-public class Client {
+public class Client extends Thread{
     Socket socket;
     PrintWriter out;
     ObjectOutputStream sender;
     ObjectInputStream in;
 
-    String userMessage = "";
-    QuestionsAndAnswers qAndA = null;
+    private String userMessage = "";
+    private QuestionsAndAnswers qAndA = null;
     boolean isQuestionReceived = false;
 
     //@Override
@@ -26,12 +26,13 @@ public class Client {
             // Setup the connection
             socket = new Socket("127.0.0.1", 23478);
             out = new PrintWriter(socket.getOutputStream(), true);
-            sender = new ObjectOutputStream(socket.getOutputStream());
+            //sender = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
 
             while (socket.isConnected()) {
                 // Send user message if exists
                 if (userMessage != null && !userMessage.isEmpty()) {
+                    System.out.println("Sending: " + userMessage);
                     out.println(userMessage);
                     userMessage = null;
 
@@ -40,7 +41,7 @@ public class Client {
                         Object read = in.readObject();  // här smäller det i StartClient
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
-                            this.qAndA = (QuestionsAndAnswers) read;
+                            setQAndA((QuestionsAndAnswers)read);
                             System.out.println("Received question: " + qAndA.getQuestion());
                         }
                     } catch (ClassNotFoundException e) {
@@ -72,6 +73,10 @@ public class Client {
     ett objekt med frågor och svar.
     Sedan får obejktet delas upp i strängar, antingen i denna klass, eller i GUI klassen
      */
+    public void setQAndA(QuestionsAndAnswers qAndA) {
+        this.qAndA = qAndA;
+    }
+
     public synchronized QuestionsAndAnswers readFromServer() {
         // Wait a bit for the question to be received
         for (int i = 0; i < 50; i++) {  // 5 seconds total wait
@@ -149,6 +154,7 @@ public class Client {
                 private JLabel chooseCategory = new JLabel("Choose category");
 
                 Protocol protocol = new Protocol();
+                Client client;
 
                 public CategorySecletionGUI() {
                     //Anropar metoden som slumpar en kategori från Protocol och skriver ut det med hjälp av toString
@@ -184,7 +190,11 @@ public class Client {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource() == categoryOne || e.getSource() == categoryTwo || e.getSource() == categoryThree) {
-                        new ClassicGameGUI();
+                        String selectedCategory = ((JButton)e.getSource()).getText();
+                        client = new Client();
+                        System.out.println("CategorySelecition:" + selectedCategory);
+                        client.sendToServer(selectedCategory);
+                        ClassicGameGUI classicGameGUI = new ClassicGameGUI(client);
                         //Stänger ner fönstret när vilken JButton som helst trycks ner
                         ((JFrame) SwingUtilities.getWindowAncestor((JButton) e.getSource())).dispose();
                     }
@@ -196,8 +206,17 @@ public class Client {
                 private String userAlias;
                 private String categoryName;
                 private String otherUserAlias;
+                Client client;
+                QuestionsAndAnswers qAndA;
 
-                public ClassicGameGUI() {
+                JButton gameQuesiton;
+                JButton rigthAwnser;
+                JButton wrongAwnser1;
+                JButton wrongAwnser2;
+                JButton wrongAwnser3;
+
+                public ClassicGameGUI(Client client) {
+                    this.client = client;
                     this.userAlias = GUI.this.userAlias;
                     this.categoryName = GUI.this.categoryName;
                     this.otherUserAlias = GUI.this.otherUserAlias;
@@ -216,11 +235,15 @@ public class Client {
                     JLabel otherUserAliasLabel = new JLabel(GUI.this.otherUserAlias);
                     JLabel timer = new JLabel("Timer goes here");
 
-                    JButton gameQuesiton = new JButton("Question: bla bla bla bla bla bla bla");
-                    JButton rigthAwnser = new JButton("Right");
-                    JButton wrongAwnser1 = new JButton("Wrong 1");
-                    JButton wrongAwnser2 = new JButton("Wrong 2");
-                    JButton wrongAwnser3 = new JButton("Wrong 3");
+                    if(client.qAndA!=null) {
+                        System.out.println("Finally");
+                        gameQuesiton.setText(qAndA.getQuestion());
+                        rigthAwnser.setText(qAndA.getRightAnswer());
+                        wrongAwnser1.setText(qAndA.getFirstAnswer());
+                        wrongAwnser2.setText(qAndA.getSecondAnswer());
+                        wrongAwnser3.setText(qAndA.getThirdAnswer());
+                    } else {
+                        System.out.println("No questions received");}
                     JButton continueButton = new JButton("Continue");
 
                     gameFrame.add(wholeGamePanel);
@@ -386,8 +409,8 @@ public class Client {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (e.getSource() == nextQuestionButton) {
-                        ClassicGameGUI classicGameGUI = new ClassicGameGUI();
-                        classicGameGUI.starClassicGame();
+                        //ClassicGameGUI classicGameGUI = new ClassicGameGUI();
+                        //classicGameGUI.starClassicGame();
                         //Stänger ner fönstret när nextQuestionButton trycks ner
                         ((JFrame) SwingUtilities.getWindowAncestor(nextQuestionButton)).dispose();
                     }
