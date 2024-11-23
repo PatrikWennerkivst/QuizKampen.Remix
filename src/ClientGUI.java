@@ -160,7 +160,7 @@ public class ClientGUI extends JFrame {
         rigthAwnser.addActionListener(l -> {
             rigthAwnser.setBackground(Color.GREEN);
             if(clickCounter<2) {
-                sendToServer("ANSWERED");
+                sendToServer("ANSWERED"); //få den att skicka ANSWEREDRIGHT och in i en räknare på servern
             }
             continueButton.setVisible(true);
         });
