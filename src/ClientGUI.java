@@ -265,6 +265,7 @@ public class ClientGUI extends JFrame {
                 randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
             }
         }
+
         QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
         // Sätt nya frågan + svar
         setQAndA(newQuestion);
