@@ -289,7 +289,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         wholeGamePanel.add(totalScoreBoardPanel);
 
         JPanel mainUserScorePanel = createScorePanel();
-        //JPanel categoryPanel = createCategoryPanel();
+        JPanel categoryPanel = createCategoryPanel();
         JPanel otherUserScorePanel = createScorePanel();
 
         roundPanel.add(mainUserScorePanel);
@@ -312,6 +312,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         for (int i = 0; i < 18; i++) {
             JCheckBox userCheckBox = new JCheckBox();
             userCheckBox.setEnabled(false);
+
+
             scorePanel.add(userCheckBox);
 
         }
@@ -346,10 +348,11 @@ public class ClientGUI extends JFrame implements ActionListener {
         rigthAwnser.setText(newQuestion.getRightAnswer());
     }
 
-    private JPanel createCategoryPanel(String[] categories) {
+    private JPanel createCategoryPanel() {
+        Categories[] categories = new Categories[6];
         JPanel categoryPanel = new JPanel(new GridLayout(categories.length, 1));
-        for (String category : categories) {
-            categoryPanel.add(new JButton(category));
+        for (Categories category : categories) {
+            categoryPanel.add(new JButton());
         }
         return categoryPanel;
     }
