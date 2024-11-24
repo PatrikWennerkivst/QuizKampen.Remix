@@ -181,7 +181,7 @@ public class ClientGUI extends JFrame {
         wrongAwnser2.addActionListener(l -> wrongAnswerAction(wrongAwnser2));
         wrongAwnser3.addActionListener(l -> wrongAnswerAction(wrongAwnser3));
 
-        // Behövs för att knapparna ska kunna ändra färg
+        // Behövs för att knapparna ska kunna ändra färg     
         rigthAwnser.setOpaque(true);
         wrongAwnser1.setOpaque(true);
         wrongAwnser2.setOpaque(true);
