@@ -194,7 +194,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 updateGameQuestionAndAnswers();
                 //Anropar metoden som slumpar ut en ny fråga från samma kategori  
 
-            } else if (clickCounter == 3) {
+            } else if (clickCounter == 2) {
                     System.out.println("Startar ny omgång...");
 
            } else {
