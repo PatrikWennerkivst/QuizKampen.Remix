@@ -310,7 +310,10 @@ public class ClientGUI extends JFrame implements ActionListener {
     private JPanel createScorePanel() {
         JPanel scorePanel = new JPanel(new GridLayout(6, 3));
         for (int i = 0; i < 18; i++) {
-            scorePanel.add(new JButton());
+            JCheckBox userCheckBox = new JCheckBox();
+            userCheckBox.setEnabled(false);
+            scorePanel.add(userCheckBox);
+
         }
         return scorePanel;
     }
