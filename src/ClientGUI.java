@@ -200,7 +200,7 @@ public class ClientGUI extends JFrame {
                 wrongAwnser1.setBackground(null);
                 wrongAwnser2.setBackground(null);
                 wrongAwnser3.setBackground(null);
-                //Anropar metoden som slumpar ut en ny fråga från samma kategori
+                //Anropar metoden som slumpar ut en ny fråga från samma kategori  
                 getNewQuestionSameCategory();
             } else {
                 clickCounter = 0;
