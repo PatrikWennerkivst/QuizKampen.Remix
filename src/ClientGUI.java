@@ -273,6 +273,7 @@ public class ClientGUI extends JFrame {
         wrongAwnser2.setText(newQuestion.getSecondAnswer());
         wrongAwnser3.setText(newQuestion.getThirdAnswer());
         rigthAwnser.setText(newQuestion.getRightAnswer());
+
     }
 
 }
