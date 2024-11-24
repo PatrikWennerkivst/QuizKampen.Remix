@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientGUI extends JFrame {
 
@@ -21,6 +22,9 @@ public class ClientGUI extends JFrame {
     private String userAlias = "User alias";
     private String categoryName = "Category name";
     private String otherUserAlias = "Other user";
+
+    private Categories currentCategory;
+    private Database database = new Database();
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -91,6 +95,8 @@ public class ClientGUI extends JFrame {
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
                             qAndA = (QuestionsAndAnswers) read;
+                            //sparat valt kategori för att sedan kunna slumpa fram nästa fråga
+                            currentCategory = qAndA.getCategories();
                             System.out.println("Received question: " + qAndA.getQuestion());
                             System.out.println(qAndA.getRightAnswer());
                         }
@@ -127,6 +133,8 @@ public class ClientGUI extends JFrame {
                 wrongAwnser1.setText(qAndA.getFirstAnswer());
                 wrongAwnser2.setText(qAndA.getSecondAnswer());
                 wrongAwnser3.setText(qAndA.getThirdAnswer());
+
+
                 break;
             }
             try {
@@ -181,6 +189,8 @@ public class ClientGUI extends JFrame {
                 wrongAwnser1.setBackground(null);
                 wrongAwnser2.setBackground(null);
                 wrongAwnser3.setBackground(null);
+                //Anropar metoden som slumpar ut en ny fråga från samma kategori
+                getNewQuestionSameCategory();
             } else {
                 clickCounter = 0;
                 System.exit(0);
@@ -238,5 +248,31 @@ public class ClientGUI extends JFrame {
     }
 
 
+    // Metod för att hämta en ny fråga från samma kategori
+    public void getNewQuestionSameCategory() {
+        if (currentCategory == null) {
+            System.out.println("Ingen kategori vald ännu.");
+            return;
+        }
+        // Hämta alla frågor från samma kategori
+        List<QuestionsAndAnswers> sameCategoryQuestions = database.getListBasedOnCategory(currentCategory);
+
+        // Slumpa en ny fråga
+        int randomIndex = 0;
+        for (int i = 0; i < sameCategoryQuestions.size(); i++) {
+            if (i == sameCategoryQuestions.size() - 1) {
+                randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
+            }
+        }
+
+        QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
+        // Sätt nya frågan + svar
+        setQAndA(newQuestion);
+        gameQuesiton.setText(newQuestion.getQuestion());
+        wrongAwnser1.setText(newQuestion.getFirstAnswer());
+        wrongAwnser2.setText(newQuestion.getSecondAnswer());
+        wrongAwnser3.setText(newQuestion.getThirdAnswer());
+        rigthAwnser.setText(newQuestion.getRightAnswer());
+    }
 
 }
