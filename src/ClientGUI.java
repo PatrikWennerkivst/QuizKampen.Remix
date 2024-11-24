@@ -14,7 +14,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     PrintWriter out;
     ObjectOutputStream sender;
     ObjectInputStream in;
-    private ClassicGameGUI classicGame;
+
 
     private String userMessage = "";
     private QuestionsAndAnswers qAndA = null;
