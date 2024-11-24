@@ -56,7 +56,6 @@ public class ClientGUI extends JFrame {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new ObjectInputStream(socket.getInputStream());
 
-
             gameFrame.add(wholeGamePanel);
             wholeGamePanel.add(categoryPanel, BorderLayout.CENTER);
             categoryPanel.setBackground(Color.blue);
@@ -88,7 +87,7 @@ public class ClientGUI extends JFrame {
                     out.println(getUserMessage());
                     // Immediately try to read the response
                     try {
-                        Object read = in.readObject();  // här smäller det i StartClient
+                        Object read = in.readObject();
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
                             qAndA = (QuestionsAndAnswers) read;
@@ -190,19 +189,19 @@ public class ClientGUI extends JFrame {
 
     }
     public void wrongAnswerAction(JButton button) {
-        if (button == wrongAwnser1) {
+        if (button.getText().equals(wrongAwnser1.getText())) {
             wrongAwnser1.setBackground(Color.red);
             if(clickCounter<2) {
                 sendToServer("ANSWERED");
             }
             continueButton.setVisible(true);
-        } else if (button == wrongAwnser2) {
+        } else if (button.getText().equals(wrongAwnser2.getText())) {
             wrongAwnser2.setBackground(Color.red);
             if(clickCounter<2) {
                 sendToServer("ANSWERED");
             }
             continueButton.setVisible(true);
-        } else if (button == wrongAwnser3) {
+        } else if (button.getText().equals(wrongAwnser3.getText())) {
             wrongAwnser3.setBackground(Color.red);
             if(clickCounter<2) {
                 sendToServer("ANSWERED");
