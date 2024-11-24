@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -30,7 +31,7 @@ public class ClientGUI extends JFrame {
     JButton continueButton = new JButton("Continue");
 
     JFrame gameFrame = new JFrame("Classic game mode");
-    JPanel categoryPanel = new JPanel(new GridLayout(4,1));
+    JPanel categoryPanel = new JPanel(new GridLayout(4, 1));
     JPanel wholeGamePanel = new JPanel(new GridLayout(4, 1));
     JPanel topGamePanel = new JPanel(new BorderLayout());
     JPanel userInfoPanel = new JPanel(new GridLayout(1, 3));
@@ -75,7 +76,7 @@ public class ClientGUI extends JFrame {
             categoryTwo.addActionListener(l -> choseCategory(categoryTwo));
             categoryThree.addActionListener(l -> choseCategory(categoryThree));
 
-            gameFrame.setSize(400,600);
+            gameFrame.setSize(400, 600);
             gameFrame.setVisible(true);
             gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
             gameFrame.setLocationRelativeTo(null);
@@ -114,14 +115,13 @@ public class ClientGUI extends JFrame {
         setClassicGame();
         wholeGamePanel.revalidate();
         wholeGamePanel.repaint();
-
     }
 
     public void setClassicGame() {
         clickCounter = 0;
 
         for (int i = 0; i < 50; i++) {  // 5 seconds total wait
-            if (qAndA!=null) {
+            if (qAndA != null) {
                 gameQuesiton.setText(qAndA.getQuestion());
                 rigthAwnser.setText(qAndA.getRightAnswer());
                 wrongAwnser1.setText(qAndA.getFirstAnswer());
@@ -135,7 +135,7 @@ public class ClientGUI extends JFrame {
                 e.printStackTrace();
             }
         }
-        if(qAndA==null) {
+        if (qAndA == null) {
             System.out.println("No questions received after waiting.");
         }
         wholeGamePanel.setBackground(Color.blue);
@@ -156,9 +156,16 @@ public class ClientGUI extends JFrame {
         answersPanel.add(wrongAwnser2);
         answersPanel.add(wrongAwnser3);
 
+        // Border med samma färg som bakgrunden för alla knappar
+        rigthAwnser.setBorder(new LineBorder(Color.LIGHT_GRAY, 3));
+        wrongAwnser1.setBorder(new LineBorder(Color.LIGHT_GRAY, 3));
+        wrongAwnser2.setBorder(new LineBorder(Color.LIGHT_GRAY, 3));
+        wrongAwnser3.setBorder(new LineBorder(Color.LIGHT_GRAY, 3));
+
         rigthAwnser.addActionListener(l -> {
-            rigthAwnser.setBackground(Color.GREEN);
-            if(clickCounter<2) {
+            Color lightGreen = Color.decode("#B8F89B");
+            rigthAwnser.setBackground(lightGreen);
+            if (clickCounter < 2) {
                 sendToServer("ANSWERED"); //få den att skicka ANSWEREDRIGHT och in i en räknare på servern
             }
             continueButton.setVisible(true);
@@ -167,6 +174,12 @@ public class ClientGUI extends JFrame {
         wrongAwnser1.addActionListener(l -> wrongAnswerAction(wrongAwnser1));
         wrongAwnser2.addActionListener(l -> wrongAnswerAction(wrongAwnser2));
         wrongAwnser3.addActionListener(l -> wrongAnswerAction(wrongAwnser3));
+
+        // Behövs för att knapparna ska kunna ändra färg
+        rigthAwnser.setOpaque(true);
+        wrongAwnser1.setOpaque(true);
+        wrongAwnser2.setOpaque(true);
+        wrongAwnser3.setOpaque(true);
 
         continueButton.addActionListener(l -> {
             clickCounter++;
@@ -186,40 +199,48 @@ public class ClientGUI extends JFrame {
                 System.exit(0);
             }
         });
-
     }
+
     public void wrongAnswerAction(JButton button) {
+        Color lightRed = Color.decode("#F8A39B");
+
         if (button.getText().equals(wrongAwnser1.getText())) {
-            wrongAwnser1.setBackground(Color.red);
-            if(clickCounter<2) {
+            wrongAwnser1.setBackground(lightRed);
+            if (clickCounter < 2) {
                 sendToServer("ANSWERED");
             }
             continueButton.setVisible(true);
         } else if (button.getText().equals(wrongAwnser2.getText())) {
-            wrongAwnser2.setBackground(Color.red);
-            if(clickCounter<2) {
+            wrongAwnser2.setBackground(lightRed);
+            if (clickCounter < 2) {
                 sendToServer("ANSWERED");
             }
             continueButton.setVisible(true);
         } else if (button.getText().equals(wrongAwnser3.getText())) {
-            wrongAwnser3.setBackground(Color.red);
-            if(clickCounter<2) {
+            wrongAwnser3.setBackground(lightRed);
+            if (clickCounter < 2) {
                 sendToServer("ANSWERED");
             }
             continueButton.setVisible(true);
+
+            // Tvinga panelen att rita om knapparna med fel svar
+            answersPanel.revalidate();
+            answersPanel.repaint();
         }
     }
 
-    public void sendToServer(String userMessage){
+    public void sendToServer(String userMessage) {
         this.userMessage = userMessage;
     }
-    public String getUserMessage(){
+
+    public String getUserMessage() {
         return userMessage;
     }
 
-    public void setQAndA(QuestionsAndAnswers qAndA){
+    public void setQAndA(QuestionsAndAnswers qAndA) {
         this.qAndA = qAndA;
     }
+
     public synchronized QuestionsAndAnswers getQAndA() {
         // Wait a bit for the question to be received
         for (int i = 0; i < 50; i++) {  // 5 seconds total wait
@@ -236,7 +257,6 @@ public class ClientGUI extends JFrame {
         System.out.println("No questions received after waiting.");
         return null;
     }
-
 
 
 }
