@@ -253,20 +253,19 @@ public class ClientGUI extends JFrame {
             System.out.println("Ingen kategori vald ännu.");
             return;
         }
-
         // Hämta alla frågor från samma kategori
         List<QuestionsAndAnswers> sameCategoryQuestions = database.getListBasedOnCategory(currentCategory);
-
         // Om det inte finns några frågor i kategorin
         if (sameCategoryQuestions.isEmpty()) {
             System.out.println("Inga frågor tillgängliga för kategorin: " + currentCategory.category);
             return;
         }
-
         // Slumpa en ny fråga
         int randomIndex = 0;
-        for (int i = 0; i < 1; i++) { // "Dum" loop som bara körs en gång
-            randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
+        for (int i = 0; i < sameCategoryQuestions.size(); i++) {
+            if (i == sameCategoryQuestions.size() - 1) {
+                randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
+            }
         }
         QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
 
