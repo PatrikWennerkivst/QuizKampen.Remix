@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientGUI extends JFrame {
 
@@ -92,6 +93,8 @@ public class ClientGUI extends JFrame {
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
                             qAndA = (QuestionsAndAnswers) read;
+                            //sparat valt kategori för att sedan kunna slumpa fram nästa fråga
+                            currentCategory = qAndA.getCategories();
                             System.out.println("Received question: " + qAndA.getQuestion());
                             System.out.println(qAndA.getRightAnswer());
                         }
@@ -128,6 +131,8 @@ public class ClientGUI extends JFrame {
                 wrongAwnser1.setText(qAndA.getFirstAnswer());
                 wrongAwnser2.setText(qAndA.getSecondAnswer());
                 wrongAwnser3.setText(qAndA.getThirdAnswer());
+
+
                 break;
             }
             try {
@@ -182,6 +187,8 @@ public class ClientGUI extends JFrame {
                 wrongAwnser1.setBackground(null);
                 wrongAwnser2.setBackground(null);
                 wrongAwnser3.setBackground(null);
+                //Anropar metoden som slumpar ut en ny fråga från samma kategori
+                getNewQuestionSameCategory();
             } else {
                 clickCounter = 0;
                 System.exit(0);
@@ -237,7 +244,40 @@ public class ClientGUI extends JFrame {
         System.out.println("No questions received after waiting.");
         return null;
     }
+    private Categories currentCategory;
+    private Database database = new Database();
 
+    // Metod för att hämta en ny fråga från samma kategori
+    public void getNewQuestionSameCategory() {
+        if (currentCategory == null) {
+            System.out.println("Ingen kategori vald ännu.");
+            return;
+        }
+
+        // Hämta alla frågor från samma kategori
+        List<QuestionsAndAnswers> sameCategoryQuestions = database.getListBasedOnCategory(currentCategory);
+
+        // Om det inte finns några frågor i kategorin
+        if (sameCategoryQuestions.isEmpty()) {
+            System.out.println("Inga frågor tillgängliga för kategorin: " + currentCategory.category);
+            return;
+        }
+
+        // Slumpa en ny fråga
+        int randomIndex = 0;
+        for (int i = 0; i < 1; i++) { // "Dum" loop som bara körs en gång
+            randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
+        }
+        QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
+
+        // Sätt nya frågan + svar
+        setQAndA(newQuestion);
+        gameQuesiton.setText(newQuestion.getQuestion());
+        wrongAwnser1.setText(newQuestion.getFirstAnswer());
+        wrongAwnser2.setText(newQuestion.getSecondAnswer());
+        wrongAwnser3.setText(newQuestion.getThirdAnswer());
+        rigthAwnser.setText(newQuestion.getRightAnswer());
+    }
 
 
 }
