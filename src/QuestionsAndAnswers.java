@@ -6,11 +6,12 @@ private String question;
 private String firstAnswer;
 private String secondAnswer;
 private String thirdAnswer;
+private String fourthAnswer;
 private String rightAnswer;
 private Categories categories;
 
      //konstruktor
-    public QuestionsAndAnswers(String question, String firstAnswer, String secondAnswer, String thirdAnswer, String rightAnswer, Categories categories) {
+    public QuestionsAndAnswers(String question, String firstAnswer, String secondAnswer, String thirdAnswer, String fourthanswer, String rightAnswer, Categories categories) {
         this.question = question;
         this.firstAnswer = firstAnswer;
         this.secondAnswer = secondAnswer;
@@ -38,6 +39,10 @@ private Categories categories;
         return thirdAnswer;
     }
 
+    public String getFourthAnswer() {
+        return thirdAnswer;
+    }
+
     public String getRightAnswer() {
         return rightAnswer;
     }
@@ -61,6 +66,10 @@ private Categories categories;
     }
 
     public void setThirdAnswer(String thirdAnswer) {
+        this.thirdAnswer = thirdAnswer;
+    }
+
+    public void setFourthAnswer(String thirdAnswer) {
         this.thirdAnswer = thirdAnswer;
     }
 
