@@ -2,12 +2,12 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
 
-public class ClientGUI extends JFrame {
+public class ClientGUI extends JFrame implements ActionListener {
 
 
     Socket socket;
@@ -189,24 +189,35 @@ public class ClientGUI extends JFrame {
 
         continueButton.addActionListener(l -> {
             clickCounter++;
+            System.out.println("Klick ");
             if (clickCounter <= 2) {
-                gameQuesiton.setText(qAndA.getQuestion());
-                rigthAwnser.setText(qAndA.getRightAnswer());
-                wrongAwnser1.setText(qAndA.getFirstAnswer());
-                wrongAwnser2.setText(qAndA.getSecondAnswer());
-                wrongAwnser3.setText(qAndA.getThirdAnswer());
-
-                rigthAwnser.setBackground(null);
-                wrongAwnser1.setBackground(null);
-                wrongAwnser2.setBackground(null);
-                wrongAwnser3.setBackground(null);
+                updateGameQuestionAndAnswers();
                 //Anropar metoden som slumpar ut en ny fråga från samma kategori  
-                getNewQuestionSameCategory();
-            } else {
-                clickCounter = 0;
-                System.exit(0);
+
+            } else if (clickCounter == 3) {
+                    System.out.println("Startar ny omgång...");
+
+           } else {
+                startRoundGUI();
             }
+
+
         });
+
+    }
+    private void updateGameQuestionAndAnswers() {
+        gameQuesiton.setText(qAndA.getQuestion());
+        rigthAwnser.setText(qAndA.getRightAnswer());
+        wrongAwnser1.setText(qAndA.getFirstAnswer());
+        wrongAwnser2.setText(qAndA.getSecondAnswer());
+        wrongAwnser3.setText(qAndA.getThirdAnswer());
+
+        rigthAwnser.setBackground(null);
+        wrongAwnser1.setBackground(null);
+        wrongAwnser2.setBackground(null);
+        wrongAwnser3.setBackground(null);
+
+        getNewQuestionSameCategory();
     }
 
     public void wrongAnswerAction(JButton button) {
@@ -265,6 +276,44 @@ public class ClientGUI extends JFrame {
         System.out.println("No questions received after waiting.");
         return null;
     }
+    public void startRoundGUI() {
+        JFrame gameFrame = new JFrame("Round score");
+        JPanel wholeGamePanel = new JPanel(new GridLayout(3, 1));
+        JPanel totalScoreBoardPanel = new JPanel(new GridLayout(1, 3));
+        JPanel roundPanel = new JPanel(new GridLayout(1, 3));
+
+        totalScoreBoardPanel.add(new JLabel(userAlias));
+        totalScoreBoardPanel.add(new JLabel(categoryName));
+        totalScoreBoardPanel.add(new JLabel(otherUserAlias));
+
+        wholeGamePanel.add(totalScoreBoardPanel);
+
+        JPanel mainUserScorePanel = createScorePanel();
+        //JPanel categoryPanel = createCategoryPanel();
+        JPanel otherUserScorePanel = createScorePanel();
+
+        roundPanel.add(mainUserScorePanel);
+        roundPanel.add(categoryPanel);
+        roundPanel.add(otherUserScorePanel);
+        wholeGamePanel.add(roundPanel);
+
+        continueButton.addActionListener(this);
+        wholeGamePanel.add(continueButton);
+
+        gameFrame.add(wholeGamePanel);
+        gameFrame.setSize(400, 600);
+        gameFrame.setLocationRelativeTo(null);
+        gameFrame.setVisible(true);
+        gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private JPanel createScorePanel() {
+        JPanel scorePanel = new JPanel(new GridLayout(6, 3));
+        for (int i = 0; i < 18; i++) {
+            scorePanel.add(new JButton());
+        }
+        return scorePanel;
+    }
 
 
     // Metod för att hämta en ny fråga från samma kategori
@@ -294,4 +343,20 @@ public class ClientGUI extends JFrame {
         rigthAwnser.setText(newQuestion.getRightAnswer());
     }
 
+    private JPanel createCategoryPanel(String[] categories) {
+        JPanel categoryPanel = new JPanel(new GridLayout(categories.length, 1));
+        for (String category : categories) {
+            categoryPanel.add(new JButton(category));
+        }
+        return categoryPanel;
+    }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == continueButton) {
+            QuestionsAndAnswers qAa = null;
+            clickCounter++;
+
+            //Stänger ner fönstret när nextQuestionButton trycks ner
+            ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
+        }
+    }
 }
