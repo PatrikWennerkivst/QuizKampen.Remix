@@ -23,6 +23,9 @@ public class ClientGUI extends JFrame {
     private String categoryName = "Category name";
     private String otherUserAlias = "Other user";
 
+    private Categories currentCategory;
+    private Database database = new Database();
+
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
     JButton wrongAwnser1 = new JButton();
@@ -244,8 +247,7 @@ public class ClientGUI extends JFrame {
         System.out.println("No questions received after waiting.");
         return null;
     }
-    private Categories currentCategory;
-    private Database database = new Database();
+
 
     // Metod för att hämta en ny fråga från samma kategori
     public void getNewQuestionSameCategory() {
@@ -255,11 +257,7 @@ public class ClientGUI extends JFrame {
         }
         // Hämta alla frågor från samma kategori
         List<QuestionsAndAnswers> sameCategoryQuestions = database.getListBasedOnCategory(currentCategory);
-        // Om det inte finns några frågor i kategorin
-        if (sameCategoryQuestions.isEmpty()) {
-            System.out.println("Inga frågor tillgängliga för kategorin: " + currentCategory.category);
-            return;
-        }
+
         // Slumpa en ny fråga
         int randomIndex = 0;
         for (int i = 0; i < sameCategoryQuestions.size(); i++) {
@@ -267,8 +265,8 @@ public class ClientGUI extends JFrame {
                 randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
             }
         }
-        QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
 
+        QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
         // Sätt nya frågan + svar
         setQAndA(newQuestion);
         gameQuesiton.setText(newQuestion.getQuestion());
