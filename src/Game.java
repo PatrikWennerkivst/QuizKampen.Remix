@@ -49,8 +49,6 @@ public class Game extends Thread {
             currentPlayer = player1;
         }
     }
-}
-
     //görs idag i i server! OBS detta är bara System out.
     // Ställer en fråga till den aktuella spelaren
     private void askQuestion(int questionIndex) {
@@ -59,6 +57,9 @@ public class Game extends Thread {
         // rätt svar visas
         System.out.println("Correct answer: " + questionsAndAnswers.get(questionIndex).getRightAnswer());
     }
+}
+
+
 
 
 

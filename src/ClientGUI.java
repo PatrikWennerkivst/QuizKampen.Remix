@@ -50,15 +50,13 @@ public class ClientGUI extends JFrame implements ActionListener {
     JLabel categoryLabel = new JLabel(categoryName);
     JLabel otherUserAliasLabel = new JLabel(opponentUserName);
     JLabel timer = new JLabel("Timer goes here");
-    JLabel welcomLable;
-    JLabel chooseUsernNameLable;
     JTextField playerNameText = new JTextField();
 
     private JButton categoryOne = new JButton();
     private JButton categoryTwo = new JButton();
     private JButton categoryThree = new JButton();
     private JLabel chooseCategory = new JLabel();
-    private JButton setUserNameButton = new JButton();
+    private JButton setUserNameButton = new JButton("Välj");
 
     int clickCounter;
 
@@ -105,19 +103,22 @@ public class ClientGUI extends JFrame implements ActionListener {
     }
 
     public void chooseUserNameGUI(){
+        JLabel welcomLable = new JLabel();
+        JLabel chooseUsernNameLable = new JLabel();
 
+        wholeGamePanel.setLayout(new GridLayout(4,1));
         gameFrame.add(wholeGamePanel);
-        userNamePanel.add(welcomLable);
-
         wholeGamePanel.add(userNamePanel);
         wholeGamePanel.setBackground(Color.GRAY);
+
+        userNamePanel.add(welcomLable);
 
         welcomLable.setHorizontalAlignment(SwingConstants.CENTER);
         welcomLable.setText("Quizz Kampen 2.0");
         welcomLable.setFont(new Font("Algerian", Font.BOLD, 50));
 
         userNamePanel.add(chooseUsernNameLable);
-        chooseUsernNameLable.setText("Välj Användarnamn: ");
+        chooseUsernNameLable.setText("\n Välj Användarnamn: ");
         chooseUsernNameLable.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 16));
         chooseUsernNameLable.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -134,10 +135,13 @@ public class ClientGUI extends JFrame implements ActionListener {
             wholeGamePanel.repaint();
         });
 
-        gameFrame.setSize(500,400);
+        gameFrame.setSize(400,600);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         gameFrame.setLocationRelativeTo(null);
+
+
+
 
     }
 
