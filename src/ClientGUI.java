@@ -33,6 +33,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     JButton wrongAwnser2 = new JButton();
     JButton wrongAwnser3 = new JButton();
     JButton continueButton = new JButton("Continue");
+    JButton nextCategoryButton = new JButton("Next round");
 
     JFrame gameFrame = new JFrame("Classic game mode");
     JPanel categoryPanel = new JPanel(new GridLayout(4,1));
@@ -198,7 +199,10 @@ public class ClientGUI extends JFrame implements ActionListener {
                     System.out.println("Startar ny omgång...");
 
            } else {
+                //Stänger ner fönstret när nextQuestionButton trycks ner
+                ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
                 startRoundGUI();
+
             }
 
 
@@ -297,8 +301,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         roundPanel.add(otherUserScorePanel);
         wholeGamePanel.add(roundPanel);
 
-        continueButton.addActionListener(this);
-        wholeGamePanel.add(continueButton);
+        nextCategoryButton.addActionListener(this);
+        wholeGamePanel.add(nextCategoryButton);
 
         gameFrame.add(wholeGamePanel);
         gameFrame.setSize(400, 600);
@@ -357,9 +361,12 @@ public class ClientGUI extends JFrame implements ActionListener {
         return categoryPanel;
     }
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == continueButton) {
+        if (e.getSource() == nextCategoryButton) {
             QuestionsAndAnswers qAa = null;
-            clickCounter++;
+            clickCounter = 0;
+
+
+
 
             //Stänger ner fönstret när nextQuestionButton trycks ner
             ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
