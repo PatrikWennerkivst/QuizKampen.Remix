@@ -185,6 +185,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 sendToServer("ANSWERED"); //få den att skicka ANSWEREDRIGHT och in i en räknare på servern
             }
             continueButton.setVisible(true);
+
         });
 
         wrongAwnser1.addActionListener(l -> wrongAnswerAction(wrongAwnser1));
@@ -213,7 +214,8 @@ public class ClientGUI extends JFrame implements ActionListener {
                 System.out.println("hej hej nu är en runda klar");
             }
         });
-
+        wholeGamePanel.revalidate();
+        wholeGamePanel.repaint();
     }
 
     //lägger till frågorna i respektive knapp i questionGUI
@@ -377,6 +379,7 @@ public class ClientGUI extends JFrame implements ActionListener {
             chooseCategoryGUI();
             wholeGamePanel.revalidate();
             wholeGamePanel.repaint();
+            System.out.println("Hej hej här är vi");
 
         //Detta kommer inte att funka. måste stänga fönstret på något annat sätt
             //Stänger ner fönstret när nextQuestionButton trycks ner
