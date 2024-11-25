@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
+
+//DETTA MOTSVARAR TicTacToeClient i TTT
 public class ClientGUI extends JFrame implements ActionListener {
 
 

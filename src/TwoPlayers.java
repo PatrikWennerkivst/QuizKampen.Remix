@@ -1,6 +1,10 @@
 import java.util.List;
 // klass som gör att två spelare kan spela mot varandra och turas om
-public class TwoPlayers {
+
+
+//DETTA MOTSVARAR ServerSideGameThreadLess i TTT
+
+public class TwoPlayers extends Thread{
     private int currentPlayer;
     private List<QuestionsAndAnswers> questionsAndAnswers;
 
