@@ -58,6 +58,9 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     Protocol protocol = new Protocol();
 
+    //TODO: En ruta allra först som tar in användarnamn och som kopplar till en spelare genom att
+    // skicka spelarens namn som en sträng till createPlayer() i server
+
     //Detta är är logik som annars skulle legat i en Client klass
     ClientGUI() {
         try {

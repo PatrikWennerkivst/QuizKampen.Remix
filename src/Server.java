@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 //DETTA MOTSVARAR TicTacToeServer i TTT
@@ -33,5 +34,21 @@ public class Server extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //Ta in spelarens namn från ClientGUI
+    public void createPlayer(String playerName) {
+        try {
+            ServerSocket listener = new ServerSocket(8901);
+            while (true) {
+                Player player1 = new Player(listener.accept(), "Spelare 1"); //Skapar en instans av spelare 1 TODO: Den ska ta in riktiga namnet från ClientGUI
+                Player player2 = new Player(listener.accept(), "Spelare 2"); //Skapar en instans av spelare 2  TODO: Lös hur motståndarens namn ska tas in
+                Game game = new Game(player1, player2);
+                game.start();
+            }
+        } catch (Exception e) {
+            System.out.println("Det gick inte att skapa ett spel i server");
+        }
+
     }
 }
