@@ -143,13 +143,13 @@ public class ClientGUI extends JFrame implements ActionListener {
                 wrongAwnser3.setText(qAndA.getThirdAnswer());
                 break;
             }
-           /* try {
+            try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            */
+
         }
         if (qAndA == null) {
             System.out.println("No questions received after waiting.");
@@ -202,15 +202,15 @@ public class ClientGUI extends JFrame implements ActionListener {
             System.out.println("Klick ");
             if (clickCounter <= 2) {
                 updateGameQuestionAndAnswers();
-                //Anropar metoden som slumpar ut en ny fråga från samma kategori  
+                //Anropar metoden som slumpar ut en ny fråga från samma kategori
 
-            } else if (clickCounter == 2) {
-                    System.out.println("Startar ny omgång...");
-
-           } else {
+           } else if (clickCounter == 3  ){
                 //Stänger ner fönstret när nextQuestionButton trycks ner
                 ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
                 startRoundGUI();
+            }
+            else {
+                System.out.println("hej hej nu är en runda klar");
             }
         });
 
@@ -230,6 +230,33 @@ public class ClientGUI extends JFrame implements ActionListener {
         wrongAwnser3.setBackground(null);
 
         getNewQuestionSameCategory();
+    }
+
+    // Metod för att hämta en ny fråga från samma kategori
+    public void getNewQuestionSameCategory() {
+        if (currentCategory == null) {
+            System.out.println("Ingen kategori vald ännu.");
+            return;
+        }
+        // Hämta alla frågor från samma kategori
+        List<QuestionsAndAnswers> sameCategoryQuestions = database.getListBasedOnCategory(currentCategory);
+
+        // Slumpa en ny fråga
+        int randomIndex = 0;
+        for (int i = 0; i < sameCategoryQuestions.size(); i++) {
+            if (i == sameCategoryQuestions.size() - 1) {
+                randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
+            }
+        }
+
+        QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
+        // Sätt nya frågan + svar
+        setQAndA(newQuestion);
+        gameQuesiton.setText(newQuestion.getQuestion());
+        wrongAwnser1.setText(newQuestion.getFirstAnswer());
+        wrongAwnser2.setText(newQuestion.getSecondAnswer());
+        wrongAwnser3.setText(newQuestion.getThirdAnswer());
+        rigthAwnser.setText(newQuestion.getRightAnswer());
     }
 
     public void wrongAnswerAction(JButton button) {
@@ -259,32 +286,6 @@ public class ClientGUI extends JFrame implements ActionListener {
             answersPanel.repaint();
         }
     }
-    // Metod för att hämta en ny fråga från samma kategori
-    public void getNewQuestionSameCategory() {
-        if (currentCategory == null) {
-            System.out.println("Ingen kategori vald ännu.");
-            return;
-        }
-        // Hämta alla frågor från samma kategori
-        List<QuestionsAndAnswers> sameCategoryQuestions = database.getListBasedOnCategory(currentCategory);
-
-        // Slumpa en ny fråga
-        int randomIndex = 0;
-        for (int i = 0; i < sameCategoryQuestions.size(); i++) {
-            if (i == sameCategoryQuestions.size() - 1) {
-                randomIndex = (int) (Math.random() * sameCategoryQuestions.size());
-            }
-        }
-
-        QuestionsAndAnswers newQuestion = sameCategoryQuestions.get(randomIndex);
-        // Sätt nya frågan + svar
-        setQAndA(newQuestion);
-        gameQuesiton.setText(newQuestion.getQuestion());
-        wrongAwnser1.setText(newQuestion.getFirstAnswer());
-        wrongAwnser2.setText(newQuestion.getSecondAnswer());
-        wrongAwnser3.setText(newQuestion.getThirdAnswer());
-        rigthAwnser.setText(newQuestion.getRightAnswer());
-    }
 
     public void sendToServer(String userMessage) {
         this.userMessage = userMessage;
@@ -305,13 +306,13 @@ public class ClientGUI extends JFrame implements ActionListener {
                 isQuestionReceived = false;  // Reset for next question
                 return qAndA;
             }
-           /* try {
+                try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            */
+
         }
         System.out.println("No questions received after waiting.");
         return null;
@@ -372,9 +373,18 @@ public class ClientGUI extends JFrame implements ActionListener {
         if (e.getSource() == nextCategoryButton) {
             QuestionsAndAnswers qAa = null;
             clickCounter = 0;
+            wholeGamePanel.removeAll();
             chooseCategoryGUI();
+            wholeGamePanel.revalidate();
+            wholeGamePanel.repaint();
+
+
+
+
+
+
             //Stänger ner fönstret när nextQuestionButton trycks ner
-           // ((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
+            //((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
         }
     }
 }
