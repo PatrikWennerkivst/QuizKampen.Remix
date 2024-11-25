@@ -4,12 +4,12 @@ import java.util.List;
 
 //DETTA MOTSVARAR ServerSideGameThreadLess i TTT
 
-public class TwoPlayers extends Thread{
+public class Game extends Thread{
     private int currentPlayer;
     private List<QuestionsAndAnswers> questionsAndAnswers;
 
     //startar med första spelaren och hämtar frågor från aktuell kategori
-    public TwoPlayers(Database db, Categories category) {
+    public Game(Database db, Categories category) {
         currentPlayer = 0;
         questionsAndAnswers = db.getListBasedOnCategory(category);
     }
