@@ -44,7 +44,7 @@ public class Server extends Thread {
                 Player player1 = new Player(listener.accept(), "Spelare 1"); //Skapar en instans av spelare 1 TODO: Den ska ta in riktiga namnet från ClientGUI
                 Player player2 = new Player(listener.accept(), "Spelare 2"); //Skapar en instans av spelare 2  TODO: Lös hur motståndarens namn ska tas in
                 Game game = new Game(player1, player2);
-                game.start();
+                game.startGame();
             }
         } catch (Exception e) {
             System.out.println("Det gick inte att skapa ett spel i server");
