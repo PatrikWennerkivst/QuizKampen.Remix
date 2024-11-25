@@ -37,9 +37,19 @@ public class Game extends Thread {
         switchPlayer();
     }
     // Växlar till nästa spelare (0 -> 1 eller 1 -> 0), efter att tre frågor har ställts till första spelaren
-    private void switchPlayer() {
+    /*private void switchPlayer() {
         currentPlayer = (currentPlayer) % 2;
+     */
+    public void switchPlayer() {
+        // Om den nuvarande spelaren är player1, byt till player2
+        if (currentPlayer == player1) {
+            currentPlayer = player2;
+        } else {
+            // Annars, byt till player1
+            currentPlayer = player1;
+        }
     }
+}
 
     //görs idag i i server! OBS detta är bara System out.
     // Ställer en fråga till den aktuella spelaren
