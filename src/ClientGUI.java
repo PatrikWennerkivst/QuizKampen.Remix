@@ -28,7 +28,8 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     private Categories currentCategory;
     private Database database = new Database();
-    private Server server;
+    private MultiUser multiUser;
+    private Server server = new Server(socket, multiUser);
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -101,6 +102,7 @@ public class ClientGUI extends JFrame implements ActionListener {
             e.printStackTrace();
         }
     }
+    //Metod med GUI för val av anändarnamn. Samt plats där användarnamn skickas till server via createPlayer() anrop
 
     public void chooseUserNameGUI(){
         JLabel welcomLable = new JLabel();
@@ -117,31 +119,29 @@ public class ClientGUI extends JFrame implements ActionListener {
         welcomLable.setText("Quizz Kampen 2.0");
         welcomLable.setFont(new Font("Algerian", Font.BOLD, 50));
 
-        userNamePanel.add(chooseUsernNameLable);
+        wholeGamePanel.add(chooseUsernNameLable);
         chooseUsernNameLable.setText("\n Välj Användarnamn: ");
         chooseUsernNameLable.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 16));
         chooseUsernNameLable.setHorizontalAlignment(SwingConstants.CENTER);
 
-        userNamePanel.add(playerNameText);
-        userNamePanel.add(setUserNameButton);
+        wholeGamePanel.add(playerNameText);
+        playerNameText.setSize(100,28);
+        playerNameText.setHorizontalAlignment(SwingConstants.CENTER);
+        wholeGamePanel.add(setUserNameButton);
 
         setUserNameButton.addActionListener(e -> {
             playerUserName = playerNameText.getText();
-            server.createPlayer(playerUserName);
+            server.createPlayer(playerUserName);    //Skickar användarnamn till server
             wholeGamePanel.removeAll();
-
             chooseCategoryGUI();
             wholeGamePanel.revalidate();
             wholeGamePanel.repaint();
         });
 
-        gameFrame.setSize(400,600);
+        gameFrame.setSize(500,600);
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         gameFrame.setLocationRelativeTo(null);
-
-
-
 
     }
 
