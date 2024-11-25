@@ -1,4 +1,4 @@
-import java.util.List
+import java.util.List;
 
 // klass som gör att två spelare kan spela mot varandra och turas om
 //DETTA MOTSVARAR ServerSideGameThreadLess i TTT
@@ -59,7 +59,7 @@ public class Game extends Thread {
         // rätt svar visas
         System.out.println("Correct answer: " + questionsAndAnswers.get(questionIndex).getRightAnswer());
     }
-}
+
 
 
 

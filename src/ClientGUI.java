@@ -22,12 +22,13 @@ public class ClientGUI extends JFrame implements ActionListener {
     private QuestionsAndAnswers qAndA = null;
     boolean isQuestionReceived = false;
 
-    private String userAlias = "User alias";
+    private String playerUserName;
     private String categoryName = "Category name";
-    private String otherUserAlias = "Other user";
+    private String opponentUserName = "Other user";
 
     private Categories currentCategory;
     private Database database = new Database();
+    private Server server;
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -43,16 +44,21 @@ public class ClientGUI extends JFrame implements ActionListener {
     JPanel topGamePanel = new JPanel(new BorderLayout());
     JPanel userInfoPanel = new JPanel(new GridLayout(1, 3));
     JPanel answersPanel = new JPanel(new GridLayout(2, 2));
+    JPanel userNamePanel = new JPanel(new GridLayout(3,1));
 
-    JLabel userAliasLabel = new JLabel(userAlias);
+    JLabel userAliasLabel = new JLabel(playerUserName);
     JLabel categoryLabel = new JLabel(categoryName);
-    JLabel otherUserAliasLabel = new JLabel(otherUserAlias);
+    JLabel otherUserAliasLabel = new JLabel(opponentUserName);
     JLabel timer = new JLabel("Timer goes here");
+    JLabel welcomLable;
+    JLabel chooseUsernNameLable;
+    JTextField playerNameText = new JTextField();
 
     private JButton categoryOne = new JButton();
     private JButton categoryTwo = new JButton();
     private JButton categoryThree = new JButton();
     private JLabel chooseCategory = new JLabel();
+    private JButton setUserNameButton = new JButton();
 
     int clickCounter;
 
@@ -68,7 +74,7 @@ public class ClientGUI extends JFrame implements ActionListener {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new ObjectInputStream(socket.getInputStream());
 
-            chooseCategoryGUI();
+            chooseUserNameGUI();
 
             while (socket.isConnected()) {
                 // Send user message if exists
@@ -96,6 +102,43 @@ public class ClientGUI extends JFrame implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void chooseUserNameGUI(){
+
+        gameFrame.add(wholeGamePanel);
+        userNamePanel.add(welcomLable);
+
+        wholeGamePanel.add(userNamePanel);
+        wholeGamePanel.setBackground(Color.GRAY);
+
+        welcomLable.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomLable.setText("Quizz Kampen 2.0");
+        welcomLable.setFont(new Font("Algerian", Font.BOLD, 50));
+
+        userNamePanel.add(chooseUsernNameLable);
+        chooseUsernNameLable.setText("Välj Användarnamn: ");
+        chooseUsernNameLable.setFont(new Font("Rockwell Extra Bold", Font.BOLD, 16));
+        chooseUsernNameLable.setHorizontalAlignment(SwingConstants.CENTER);
+
+        userNamePanel.add(playerNameText);
+        userNamePanel.add(setUserNameButton);
+
+        setUserNameButton.addActionListener(e -> {
+            playerUserName = playerNameText.getText();
+            server.createPlayer(playerUserName);
+            wholeGamePanel.removeAll();
+
+            chooseCategoryGUI();
+            wholeGamePanel.revalidate();
+            wholeGamePanel.repaint();
+        });
+
+        gameFrame.setSize(500,400);
+        gameFrame.setVisible(true);
+        gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        gameFrame.setLocationRelativeTo(null);
+
     }
 
     //Allt Gui för val av kategori
@@ -331,9 +374,9 @@ public class ClientGUI extends JFrame implements ActionListener {
         JPanel totalScoreBoardPanel = new JPanel(new GridLayout(1, 3));
         JPanel roundPanel = new JPanel(new GridLayout(1, 3));
 
-        totalScoreBoardPanel.add(new JLabel(userAlias));
+        totalScoreBoardPanel.add(new JLabel(playerUserName));
         totalScoreBoardPanel.add(new JLabel(categoryName));
-        totalScoreBoardPanel.add(new JLabel(otherUserAlias));
+        totalScoreBoardPanel.add(new JLabel(opponentUserName));
 
         wholeGamePanel.add(totalScoreBoardPanel);
 
@@ -392,3 +435,4 @@ public class ClientGUI extends JFrame implements ActionListener {
         }
     }
 }
+
