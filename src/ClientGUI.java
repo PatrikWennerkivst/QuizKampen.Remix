@@ -378,11 +378,7 @@ public class ClientGUI extends JFrame implements ActionListener {
             wholeGamePanel.revalidate();
             wholeGamePanel.repaint();
 
-
-
-
-
-
+        //Detta kommer inte att funka. måste stänga fönstret på något annat sätt
             //Stänger ner fönstret när nextQuestionButton trycks ner
             //((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
         }
