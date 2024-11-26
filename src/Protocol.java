@@ -13,6 +13,8 @@ public class Protocol {
             Categories.KROPP_OCH_KNOPP, Categories.TEKNIKENS_UNDER,
             Categories.TV_SERIER, Categories.SPORT_OCH_FRITID, Categories.DJUR_OCH_NATUR};
 
+    private Categories chosenGenre;  //Nuvarande kategori som instansvariabel
+
     Properties prop = new Properties();
     int questionsInRound;
     int roundsInGame;
@@ -96,6 +98,12 @@ public class Protocol {
         Categories shuffledCategory = genres[categoryIndex];
         return shuffledCategory;
     }
+
+    // Getter för att kunna använda nuvarande kategori i Game
+    public Categories getChosenGenre() {
+        return chosenGenre;
+    }
+
 }
 
 

@@ -10,6 +10,9 @@ public class Game extends Thread {
     private Player currentPlayer;
     private List<QuestionsAndAnswers> questionsAndAnswers;
 
+    //Hämtar nuvarande kategori från Protocol, använd någonstans
+    Protocol protocol = new Protocol();
+    Categories currentCategory = protocol.getChosenGenre(); //vi tror att den hämtas här från Protocol
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
@@ -20,7 +23,9 @@ public class Game extends Thread {
 
     }
 
-    //Ta in den kategorin spelare 1 valt i sin server genom att spelare 1 skickar in kategorin hit.
+    //Få en runda att funka för båda spelarna
+
+    //Flytta metoden som skickar frågor via multiuser från servern hit
     //När man har den kategorin så kan man köra en PlayRound och skicka till MultiUser så att båda får frågorna.
     //Vi hanterar poäng här, kanske i en lista i ClientGUI där vi här räknar och jämför length
     //Ställer frågor i ClientGUI utan att den ändrar för mycket i ClientGUI
@@ -60,7 +65,7 @@ public class Game extends Thread {
             currentPlayer = player1;
         }
     }
-    //görs idag i i server! OBS detta är bara System out.
+    //görs idag i server! OBS detta är bara System out.
     // Ställer en fråga till den aktuella spelaren
     private void askQuestion(int questionIndex) {
         System.out.println("Player " + (currentPlayer) + ": " + questionsAndAnswers.get(questionIndex).getQuestion());
@@ -68,6 +73,7 @@ public class Game extends Thread {
         // rätt svar visas
         System.out.println("Correct answer: " + questionsAndAnswers.get(questionIndex).getRightAnswer());
     }
+
 }
 
 
