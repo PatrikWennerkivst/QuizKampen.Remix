@@ -91,7 +91,11 @@ public class ClientGUI extends JFrame implements ActionListener {
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                    finally {
+                        socket.close();
                 }
+            }
+
             }
 
         } catch (IOException e) {
