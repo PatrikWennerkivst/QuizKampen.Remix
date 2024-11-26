@@ -41,7 +41,7 @@ public class Player {
             this.opponent = opponent;
         }
 
-        //Skickar till klienten vilken dess motståndare är som MultiUser
+        //Skickar till klienten vilken dess motståndare är som Player
         public Player getOpponent() {
             return opponent;
         }

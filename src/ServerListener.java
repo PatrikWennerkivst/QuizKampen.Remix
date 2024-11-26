@@ -8,7 +8,7 @@ public class ServerListener {
 
     public ServerListener(){
 
-        try(ServerSocket serverSocket = new ServerSocket(23478);) {
+        try(ServerSocket serverSocket = new ServerSocket(8901);) {
             while (true) {
                 Socket socket = serverSocket.accept();
 

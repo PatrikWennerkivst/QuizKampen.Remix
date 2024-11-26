@@ -11,12 +11,11 @@ import java.util.List;
 //DETTA MOTSVARAR TicTacToeClient i TTT
 public class ClientGUI extends JFrame implements ActionListener {
 
-
+    private final static int PORT = 8901;
     Socket socket;
     PrintWriter out;
     ObjectOutputStream sender;
     ObjectInputStream in;
-
 
     private String userMessage = "";
     private QuestionsAndAnswers qAndA = null;
@@ -63,13 +62,10 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     Protocol protocol = new Protocol();
 
-    //TODO: En ruta allra först som tar in användarnamn och som kopplar till en spelare genom att
-    // skicka spelarens namn som en sträng till createPlayer() i server
-
-    //Detta är är logik som annars skulle legat i en Client klass
+    //Startar upp anslutning till servern, startar GUI för användarnamn och tar emot frågeobjekt
     ClientGUI() {
         try {
-            socket = new Socket("127.0.0.1", 23478);
+            socket = new Socket("127.0.0.1", PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new ObjectInputStream(socket.getInputStream());
 
@@ -82,7 +78,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                     out.println(getUserMessage());
                     // Immediately try to read the response
                     try {
-                        Object read = in.readObject();  // här smäller det i StartClient
+                        Object read = in.readObject();
                         if (read instanceof QuestionsAndAnswers) {
                             // Directly assign to the public variable
                             qAndA = (QuestionsAndAnswers) read;
@@ -102,8 +98,8 @@ public class ClientGUI extends JFrame implements ActionListener {
             e.printStackTrace();
         }
     }
-    //Metod med GUI för val av anändarnamn. Samt plats där användarnamn skickas till server via createPlayer() anrop
 
+    //Metod med GUI för val av användarnamn. Samt plats där användarnamn skickas till server via createPlayer() anrop
     public void chooseUserNameGUI(){
         JLabel welcomLable = new JLabel();
         JLabel chooseUsernNameLable = new JLabel();
