@@ -126,8 +126,9 @@ public class ClientGUI extends JFrame implements ActionListener {
         wholeGamePanel.add(setUserNameButton);
 
         setUserNameButton.addActionListener(e -> {
-            playerUserName = playerNameText.getText();
-            server.createPlayer(playerUserName);    //Skickar användarnamn till server
+            //playerUserName = playerNameText.getText();
+            //server.createPlayer(playerUserName);    //Skickar användarnamn till server
+            server.createPlayer(); //temporär för att starta upp createPlayer med dess hårdkodade namn
             wholeGamePanel.removeAll();
             chooseCategoryGUI();
             wholeGamePanel.revalidate();
@@ -138,8 +139,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         gameFrame.setLocationRelativeTo(null);
-
     }
+
 
     //Allt Gui för val av kategori
     public void chooseCategoryGUI(){
