@@ -38,24 +38,7 @@ public class Server extends Thread {
         }
     }
 
-    public void createPlayer() {
-        try {
-            ServerSocket listener = new ServerSocket(8901);
-            while (true) {
-                Player player1 = new Player(listener.accept(), "Spelare 1"); //Skapar en instans av spelare 1
-                System.out.println("Spelare 1 ansluten");
-                Player player2 = new Player(listener.accept(), "Spelare 2"); //Skapar en instans av spelare 2  TODO: Lös hur motståndarens namn ska tas in
-                System.out.println("Spelare 2 ansluten");
-                Game game = new Game(player1, player2);
-                System.out.println("Spelet är skapat");
-                game.startGame(database, categories); //TODO: Behöver riktig databas och riktig kategori
-                System.out.println("Spelet har startat");
-            }
-        } catch (Exception e) {
-            System.out.println("Det gick inte att skapa ett spel i server");
-        }
 
-    }
 
 /*
     //Ta in spelarens namn från ClientGUI

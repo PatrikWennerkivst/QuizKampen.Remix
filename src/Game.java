@@ -20,6 +20,17 @@ public class Game extends Thread {
 
     }
 
+    //Ta in den kategorin spelare 1 valt i sin server genom att spelare 1 skickar in kategorin hit.
+    //När man har den kategorin så kan man köra en PlayRound och skicka till MultiUser så att båda får frågorna.
+    //Vi hanterar poäng här, kanske i en lista i ClientGUI där vi här räknar och jämför length
+    //Ställer frågor i ClientGUI utan att den ändrar för mycket i ClientGUI
+
+    //Logik for 6 ronder och när de har kört så är spelet helt slut
+
+    //I ClientGUI måste bara spelare 1 tillåtas att välja kategori först
+    //I nästa rond ska bara spelare 2 tillåtas att välja sin kategori
+
+
     //startar med första spelaren och hämtar frågor från aktuell kategori
 //anropas från server
     public void startGame(Database db, Categories category) {

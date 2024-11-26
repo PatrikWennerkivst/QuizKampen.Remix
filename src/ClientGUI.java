@@ -28,7 +28,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     private Categories currentCategory;
     private Database database = new Database();
     private MultiUser multiUser;
-    private Server server = new Server(socket, multiUser);
+   // private Server server = new Server(socket, multiUser); - behövs inte eftersom man redan pratar via socketen
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -130,9 +130,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         wholeGamePanel.add(setUserNameButton);
 
         setUserNameButton.addActionListener(e -> {
-            //playerUserName = playerNameText.getText();
-            //server.createPlayer(playerUserName);    //Skickar användarnamn till server
-            server.createPlayer(); //temporär för att starta upp createPlayer med dess hårdkodade namn
+            //playerUserName = playerNameText.getText(); //TODO: Nåt sätt att få in namnet i ServerListener
             wholeGamePanel.removeAll();
             chooseCategoryGUI();
             wholeGamePanel.revalidate();
