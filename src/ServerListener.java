@@ -9,7 +9,7 @@ public class ServerListener {
 
     public ServerListener(){
 
-        try(ServerSocket serverSocket = new ServerSocket(8901);) { //skicka in player och
+        try(ServerSocket serverSocket = new ServerSocket(8888);) { //skicka in player och
             while (true) {
                 //Väntar på att spelare 1 ansluter, skapar spelare 1 och skapar upp servertråd 1
                 Socket socket1 = serverSocket.accept();

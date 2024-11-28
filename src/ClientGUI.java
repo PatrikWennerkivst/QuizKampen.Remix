@@ -11,7 +11,7 @@ import java.util.List;
 //DETTA MOTSVARAR TicTacToeClient i TTT
 public class ClientGUI extends JFrame implements ActionListener {
 
-    private final static int PORT = 8901;
+    private final static int PORT = 8888;
     Socket socket;
     PrintWriter out;
     ObjectOutputStream sender;
