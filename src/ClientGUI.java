@@ -7,8 +7,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
-
-//DETTA MOTSVARAR TicTacToeClient i TTT
 public class ClientGUI extends JFrame implements ActionListener {
 
     private final static int PORT = 8888;
@@ -28,7 +26,6 @@ public class ClientGUI extends JFrame implements ActionListener {
     private Categories currentCategory;
     private Database database = new Database();
     private MultiUser multiUser;
-   // private Server server = new Server(socket, multiUser); - behövs inte eftersom man redan pratar via socketen
 
     JButton gameQuesiton = new JButton();
     JButton rigthAwnser = new JButton();
@@ -130,7 +127,6 @@ public class ClientGUI extends JFrame implements ActionListener {
         wholeGamePanel.add(setUserNameButton);
 
         setUserNameButton.addActionListener(e -> {
-            //playerUserName = playerNameText.getText(); //TODO: Nåt sätt att få in namnet i ServerListener
             wholeGamePanel.removeAll();
             chooseCategoryGUI();
             wholeGamePanel.revalidate();
@@ -431,10 +427,6 @@ public class ClientGUI extends JFrame implements ActionListener {
             wholeGamePanel.revalidate();
             wholeGamePanel.repaint();
             System.out.println("Hej hej här är vi");
-
-        //Detta kommer inte att funka. måste stänga fönstret på något annat sätt
-            //Stänger ner fönstret när nextQuestionButton trycks ner
-            //((JFrame) SwingUtilities.getWindowAncestor(continueButton)).dispose();
         }
     }
 }

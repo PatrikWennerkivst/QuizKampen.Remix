@@ -3,8 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-// klass som funkar som databs för frågor och svar. man kan anropa hela listan eller en specifik kategori.
+// klass som funkar som databas för frågor och svar. man kan anropa hela listan eller en specifik kategori.
 public class Database {
     public List<QuestionsAndAnswers> questionsAndAnswers = CreateQuestionsAndAnswers ();
 //skapar en lista med alla objekt

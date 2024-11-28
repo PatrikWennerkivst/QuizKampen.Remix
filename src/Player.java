@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-//DETTA MOTSVARAR ServerSidePlayer i TTT.
 //Representerar en spelare (en Player) i spelet och kommunicerar med respektive klient genom (vi har två ClientGUI)
 
 public class Player {
